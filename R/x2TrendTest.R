@@ -5,9 +5,10 @@
 #'
 #' \code{x2TrendTest} Conducts a chi-square test proportion trend test.
 #'
-#' @param data Data to be analyzed with response variable as first variable.
-#' @param y Character string indicating the name of the response variable
+#' @param freqTbl Data to be analyzed with response variable as first variable.
 #' @param x Character string indicating the name of the explanatory variable
+#' @param y Character string indicating the name of the response variable
+#' @param z Chracter string for the level of the control variable
 #' @param conf Level of confidence between 0 and 1
 #' @param alpha The probability of a type 1 error between 0 and 1
 #'
@@ -15,21 +16,26 @@
 #' @family xmar functions
 #' @export
 #'
-x2TrendTest <- function(freqTbl, y, x, conf = 0.95, alpha = 0.05) {
+x2TrendTest <- function(freqTbl, x, y, z, conf = 0.95, alpha = 0.05) {
 
+  propTbl <- prop.table(freqTbl, 2)
   freqTbl <- addmargins(freqTbl, 1)
   x2 <- prop.trend.test(x = as.numeric(freqTbl[2,]),
                         n = as.numeric(freqTbl[3,]))
 
-  # Extract Chisq Data
+
+  # Compute Critical Value
   criticalVal <- qchisq(alpha, x2$parameter, lower.tail = F)
 
   # Create Table
-  table <- data.frame(Response = y,
+  table <- data.frame(Period = paste0(as.numeric(dimnames(freqTbl)$Year[1]), "-",
+                                      as.numeric(dimnames(freqTbl)$Year[length(freqTbl[2,])])),
+                      Response = y,
                       Explanatory = x,
+                      Gender = z,
                       `d.f.` = x2$parameter,
                       N = sum(freqTbl[3,]),
-                      `Critical Value` = qchisq(alpha, x2$parameter, lower.tail = F),
+                      `Critical Value` = criticalVal,
                       `X-Squared` = x2$statistic,
                       `p-value` = ifelse(x2$p.value < 0.05, "p < 0.05", round(x2$p.value, 3)),
                       Decision = ifelse(x2$p.value >= alpha,"Fail to Reject", "Reject"),

@@ -4,29 +4,32 @@
 \alias{x2TrendTest}
 \title{x2TrendTest}
 \usage{
-x2TrendTest(freqTbl, y, x, conf = 0.95, alpha = 0.05)
+x2TrendTest(freqTbl, x, y, z, conf = 0.95, alpha = 0.05)
 }
 \arguments{
-\item{y}{Character string indicating the name of the response variable}
+\item{freqTbl}{Data to be analyzed with response variable as first variable.}
 
 \item{x}{Character string indicating the name of the explanatory variable}
+
+\item{y}{Character string indicating the name of the response variable}
+
+\item{z}{Chracter string for the level of the control variable}
 
 \item{conf}{Level of confidence between 0 and 1}
 
 \item{alpha}{The probability of a type 1 error between 0 and 1}
-
-\item{data}{Data to be analyzed with response variable as first variable.}
 }
 \description{
 \code{x2TrendTest} Conducts a chi-square test proportion trend test.
 }
 \seealso{
-Other xmar functions: \code{\link{bivariate}},
-  \code{\link{diffTest}}, \code{\link{formatData}},
-  \code{\link{multivariate}}, \code{\link{plotBars}},
-  \code{\link{plotDiffTest}}, \code{\link{plotLines}},
-  \code{\link{plotX2}}, \code{\link{preprocess}},
-  \code{\link{univariate}}, \code{\link{x2Test}}
+Other xmar functions: \code{\link{analyze2DData}},
+  \code{\link{analyzeTrend}}, \code{\link{bivariate}},
+  \code{\link{diffTest}}, \code{\link{multivariate}},
+  \code{\link{plotBars}}, \code{\link{plotDiffTest}},
+  \code{\link{plotLines}}, \code{\link{plotX2}},
+  \code{\link{preprocess}}, \code{\link{univariate}},
+  \code{\link{x2Test}}
 }
 \author{
 John James, \email{jjames@datasciencesalon.org}

@@ -19,11 +19,17 @@
 plotLines <- function(data, y, x, title) {
 
   #---------------------------------------------------------------------------#
-  #                                Line Plot                                  #
+  #                                Format DAta                                #
   #---------------------------------------------------------------------------#
-  # Format data
+  # Remove factors
   f <- sapply(data, is.factor)
   data[f] <- lapply(data[f], as.character)
+
+  # Prepare data set
+  all <- prop.table(table(data[,1:2]), 2)
+  allDf <- data.frame(Year = as.numeric(dimnames(all)$Year),
+                       Gender = rep("All", length(dimnames(all)$Year)),
+                       Proportion = as.numeric(all[1,]))
   male <- subset(data, Gender == "Male")
   female <- subset(data, Gender == "Female")
   maleTbl <- prop.table(table(male), 2)
@@ -34,18 +40,19 @@ plotLines <- function(data, y, x, title) {
   femaleDf <- data.frame(Year = as.numeric(dimnames(femaleTbl)$Year),
                        Gender = rep("Female", length(dimnames(femaleTbl)$Year)),
                        Proportion = as.numeric(femaleTbl[1,,]))
-  df <- rbind(maleDf, femaleDf)
+  df <- rbind(allDf, maleDf, femaleDf)
+
 
   # Render plot
   p <- (ggplot2::ggplot(data = df,
                                ggplot2::aes(x = Year, y = Proportion,
                                             colour = Gender))
-  + ggplot2::geom_line()
-  + ggplot2::theme_minimal(base_size = 24)
-  + ggplot2::theme(legend.position="bottom",
-                   text=ggplot2::element_text(family="Open Sans"))
-  + ggplot2::scale_colour_manual(values = c('blue', 'darkgreen'))
-  + ggplot2::labs(title = title, x = x, y = y))
+        + ggplot2::theme_minimal(base_size = 24)
+        + ggplot2::geom_line()
+        + ggplot2::theme(legend.position="bottom",
+                         text=ggplot2::element_text(family="Open Sans"))
+        + ggplot2::scale_colour_manual(values = c('blue', 'darkgreen', "red"))
+        + ggplot2::labs(title = title, x = x, y = y))
 
   return(p)
 }

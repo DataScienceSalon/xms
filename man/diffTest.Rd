@@ -26,12 +26,13 @@ Data frame containing the results of the z-test
 variable on a response variable.
 }
 \seealso{
-Other xmar functions: \code{\link{bivariate}},
-  \code{\link{formatData}}, \code{\link{multivariate}},
-  \code{\link{plotBars}}, \code{\link{plotDiffTest}},
-  \code{\link{plotLines}}, \code{\link{plotX2}},
-  \code{\link{preprocess}}, \code{\link{univariate}},
-  \code{\link{x2Test}}, \code{\link{x2TrendTest}}
+Other xmar functions: \code{\link{analyze2DData}},
+  \code{\link{analyzeTrend}}, \code{\link{bivariate}},
+  \code{\link{multivariate}}, \code{\link{plotBars}},
+  \code{\link{plotDiffTest}}, \code{\link{plotLines}},
+  \code{\link{plotX2}}, \code{\link{preprocess}},
+  \code{\link{univariate}}, \code{\link{x2Test}},
+  \code{\link{x2TrendTest}}
 }
 \author{
 John James, \email{jjames@datasciencesalon.org}

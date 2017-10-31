@@ -47,9 +47,9 @@ eda <- univariate(xms$univariate)
 
 # Abstract
 # Introduction
-There is no dearth of research on American's changing attitudes towards marriage, its primacy as a way of life, and its exclusivity. Approximately four-in-ten Americans say that the present institution of marriage is becoming obsolete [@Taylor2010]. According to the same Pew Research 2010 study, 72% of all adults in America were married in 1960. By 2008, this percentage had dropped to 52%. From this apparent decline in marriage, Americans are slowly becoming more accepting of open relationships, consensual non-monogamy (CNG) practices, and the like. Nearly half of the population of Americans would consider an open relationship, though fewer than 4% actually claim to be in one [@Avvo]. Notwithstanding, nearly 22% of married men and 14% of married women admit to having an affair at least once during their marriages, with or without the spousal consent [@Johnson2017].
+There is no dearth of research on American's changing attitudes towards marriage, its primacy as a way of life, and its exclusivity. Approximately four-in-ten Americans say that the present institution of marriage is becoming obsolete [@Taylor2010]. According to the same Pew Research 2010 study, 72% of all adults in America were married in 1960. By 2008, this percentage had dropped to 52%. From this apparent decline in marriage, Americans are slowly becoming more accepting of open relationships, consensual non-monogamy (CNM) practices, and the like. Nearly half of the population of Americans would consider an open relationship, though fewer than 4% actually claim to be in one [@Avvo]. Notwithstanding, nearly 22% of married men and 14% of married women admit to having an affair at least once during their marriages [@Johnson2017].
 
-The purpose of this study is to examine the nature and evolution of attitudes and opinions with respect to (w.r.t.) extra-marital conduct. Serving as the data source are the opinions of over, 65,000 Americans (44% women, 56% men) over a period of 44 years (1972-2016), courtesy of the General Social Survey (GSS) [@NORCa], a project of NORC at the University of Chicago that monitors societal change and studies the growing complexity of American society. 
+The purpose of this study is to examine the nature and evolution of attitudes and opinions with respect to (w.r.t.) extra-marital conduct. Serving as the data source are the opinions of over, 65,000 Americans (44% women, 56% men) over a period of 44 years (1973-2011), courtesy of the General Social Survey (GSS) [@NORCa], a project of NORC at the University of Chicago that monitors societal change and studies the growing complexity of American society. 
 
 ## Research Questions
 Opinions were characterized as "traditional" when the attitude is that extra-marital conduct is always wrong, or almost always wrong. Alternatively, opinions were labelled as "non-traditional" if the belief is that such conduct is sometimes wrong or not wrong at all. Throughout this study, the short hand of "opinion" refers to "non-traditional" opinion. That said, the nature of opinion is examined via the following 11 research questions.
@@ -66,7 +66,7 @@ The **methods** section describes the data, the sampling techniques, data prepro
 
 # Methods
 ## Data 
-The General Social Survey (GSS), a project of the NORC at the University of Chicago, provided the data upon which this report is based. Formerly known as the National Opinion Research Center, "NORC at the University of Chicago is an objective non-partisan research institution that delivers reliable data and rigorous analysis to guide critical programmatic, business, and policy decisions" [@NORC]. Principally funded by the National Science Foundation, the GSS has been monitoring evolution, complexity opinions, behaviors, and attributes of American society since 1972. Targeting the adult population, age 18 and over in the United, the data covers a diverse range of issues including national spending priorities, marijuana use, crime and punishment, race relations, quality of life, confidence in institutions, and sexual behavior.
+The General Social Survey (GSS), a project of the NORC at the University of Chicago, provided the data upon which this report is based. Formerly known as the National Opinion Research Center, "NORC at the University of Chicago is an objective non-partisan research institution that delivers reliable data and rigorous analysis to guide critical programmatic, business, and policy decisions" [@NORC]. Principally funded by the National Science Foundation, the GSS has been monitoring evolution, complexity opinions, behaviors, and attributes of American society since 1973. Targeting the adult population, age 18 and over in the United, the data covers a diverse range of issues including national spending priorities, marijuana use, crime and punishment, race relations, quality of life, confidence in institutions, and sexual behavior.
 
 ### Data Sampling Strategy
 The GSS employed a multi-stage area full probability sampling strategy. 
@@ -93,7 +93,7 @@ knitr::kable(vars) %>%
 ```
 
 ### Data Preprocessing
-The GSS variables were extracted for years 1972 thru 2016 and the following variables were created.  
+The GSS variables were extracted for years 1973 thru 2016 and the following variables were created.  
 
 **Opinion**: Two factor variable:  
 * Traditional: Always wrong and almost always wrong  
@@ -189,14 +189,14 @@ These conditions applied to the univariate analyses of the categorical variables
 
 **Inference for Difference of Two Proportions**   
 These conditions applied to the multivariate analyses of the difference in the proportion of non-traditional opinion in two populations. One can assume that the sampling distribution of the *difference* of two proportions $p1 - p2$ is normal if:  
-1. **Within Sample Independence:** Each sample meets the independence criteria, specifically, samples were obtained from a random sampling process and consists of less than 10% of hte adult U.S. population.
-2. **Croos-Sample Independence:** Both samples are independent from each other. 
+1. **Within Sample Independence:** Each sample meets the independence criteria, specifically, samples were obtained from a random sampling process and consists of less than 10% of hte adult U.S. population.  
+2. **Cross-Sample Independence:** Both samples are independent from each other. 
 
 **Inference for Association (Chi-square goodness-of-fit)**   
-These conditions applied to the multivariate analyses of the association between opinion and the various explanatory variables. The following three conditions were confirmed for all association tests. 
-1. **Independence:** Each case that contributes a count to the table must be independent of all the other cases in the table.
-2. **Sample Size:**  Each particular scenario (i.e. cell count) must have at least 5 *expected* cases. 
-3. **Degrees of Freedom:** The contingency table must be associated with a chi-square distribution with 2 or more degrees of freedom.
+These conditions applied to the multivariate analyses of the association between opinion and the various explanatory variables. The following three conditions were confirmed for all association tests.  
+1. **Independence:** Each case that contributes a count to the table must be independent of all the other cases in the table.  
+2. **Sample Size:**  Each particular scenario (i.e. cell count) must have at least 5 *expected* cases.   
+3. **Degrees of Freedom:** The contingency table must be associated with a chi-square distribution with two or more degrees of freedom.  
 
 #### Minimum Sample Size
 Minimum required sample sizes were computed during the univariate analysis to confirm that the sample parameters were within a 5% margin of error of the true population parameters. The minimum sample size for estimating the population proportion was computed as follows:  
@@ -279,11 +279,10 @@ $d$ is the probability of having opinion y, given condition 2
 ***Multiple Two-Proportion Tests**
 Lastly, multiple difference in proportion tests were often conducted to compare the differences across several levels of a categorical explanatory variable. Since the chance of rare events increases with multiple tests, the likelihood of incorrectly rejecting the null hypothesis also increases.  To accompensate for that increase the **Bonferroni correction** was applied to the hypothesis tests, changing the significance level to $\alpha / m$, where $\alpha$ is the level of significance and $m$ is the number of hypothesis tests. The number of hypothesis tests $m = k(k-1)/2$, where $k$ is the number of groups being tested. The confidence interval was also adjusted, changing the overall confidence level from $1 - \alpha$ to $1 - \alpha/m$. The *Marascuilo* method of multiple comparisons was used to test all combinations of groups.
 
-
 ##### Chi-square test of independence.
 To evaluate the association between opinion and the categorical explanatory variables, Pearson’s chi-square $X^2$ test of independence was employed to compute the probability of observing differences in proportions as extreme as the differences observed, assuming the null hypothesis that observed counts $O$, and expected counts $E$ are equal. The expected counts are computed as follows:
 
-$E_{(i,j)} = \frac{0T_i * 0T_j}{0T$ where:
+$E_{(i,j)} = \frac{0T_i * 0T_j}{0T}$ where:  
 $E_{(i,j)}$ is a contingency table of expected counts with rows $i$ and columns $j$.
 $0T_i$ is the total for row $i$ from the observed contingency table.
 $0T_j$ is the total for column $j$ from the observed contingency table.
@@ -321,7 +320,7 @@ The following descriptive and inferential statistics were computed for each stud
 Furthermore, the conditions for inference were checked in order to characterize the degree to which the samples were representative of the population proportions.
 
 ### Opinion
-As shown in `r kfigr::figr(label = "edaOpinionStats", prefix = TRUE, link = TRUE, type="Table")`, there were a total of `r sum(eda$opinion$stats$N)` observations, with `r eda$opinion$stats$N[1]`, and `r eda$opinion$stats$N[2]` traditional and non-traditional opinions, respectively. Of all respondents interviewed since 1972, `r round(eda$opinion$stats$Cumulative[1] * 100, 0)`% considered extra-marital conduct to be wrong or almost always wrong. 
+As shown in `r kfigr::figr(label = "edaOpinionStats", prefix = TRUE, link = TRUE, type="Table")`, there were a total of `r sum(eda$opinion$stats$N)` observations, with `r eda$opinion$stats$N[1]`, and `r eda$opinion$stats$N[2]` traditional and non-traditional opinions, respectively. Of all respondents interviewed since 1973, `r round(eda$opinion$stats$Cumulative[1] * 100, 0)`% considered extra-marital conduct to be wrong or almost always wrong. 
 
 `r kfigr::figr(label = "edaOpinion", prefix = TRUE, link = TRUE, type="Table")`: Descriptive and inferential statistics for the opinion variable
 ```{r edaOpinion, echo = F, message = FALSE, warning=FALSE}
@@ -381,20 +380,16 @@ knitr::kable(eda$marital$stats, align = c("l", rep("c", 7))) %>%
 Since the independence and success/failure criteria were met, the confidence intervals for the true population proportions were reliably computed.
 
 
-
-
-
-
-
-
-
-
-
-
-## Research Question 1: Trends in Opinion by Gender
+## Research Question 1: Trends in Opinion 
 
 ```{r year, cache=TRUE}
-year <- multivariate(xms$multivariate$year, y = "Opinion", x = "Year", title = "Opinion by Year and Gender",
+pre  <- xms$multivariate$year %>% filter(Year < 2012)
+post <- xms$multivariate$year %>% filter(Year > 2011)
+
+pre2012 <- multivariate(pre, y = "Proportion of Opinion", x = "Year", title = "Non-Traditional Opinion (1973-2012)", 
+success = "Non-Traditional", conf = 0.95, alpha = 0.05, alternative = "two.sided")
+
+post2012 <- multivariate(post, y = "Proportion of Opinion", x = "Year", title = "Non-Traditional Opinion (2012-2016)",
 success = "Non-Traditional", conf = 0.95, alpha = 0.05, alternative = "two.sided")
 ```
 The aim here was to determine whether a linear trend in opinion over time exists by gender. The research question is restated as follows.   
@@ -402,22 +397,42 @@ The aim here was to determine whether a linear trend in opinion over time exists
 > Is there a linear trend in the proportion of non-traditional opinion over time, controlling for gender? 
 
 ### The Data
-`r kfigr::figr(label = "yearBar1", prefix = TRUE, link = TRUE, type="Figure")` shows the proportion of non-traditional opinion by gender, for the years 1972 thru 2016.  
+`r kfigr::figr(label = "yearLine", prefix = TRUE, link = TRUE, type="Figure")` and `r kfigr::figr(label = "recentLine", prefix = TRUE, link = TRUE, type="Figure")` show the proportion of non-traditional opinion by gender over time, for the years 1973-2011, and 2012-2016 respectively.
+
 ```{r yearLine, echo = F, message = FALSE, warning=FALSE}
-year$plots$observed
+pre2012$plots$observed
 ```
-`r kfigr::figr(label = "yearBar1", prefix = TRUE, link = TRUE, type="Figure")`: Observed frequencies and proportions 
+`r kfigr::figr(label = "yearLine", prefix = TRUE, link = TRUE, type="Figure")`: Proportion of non-traditional opinion 1973-2011 
+
+```{r recentLine, echo = F, message = FALSE, warning=FALSE}
+post2012$plots$observed
+```
+`r kfigr::figr(label = "recentLine", prefix = TRUE, link = TRUE, type="Figure")`: Proportion of non-traditional opinion 2012-2016
+
+
+`r kfigr::figr(label = "trendSummary", prefix = TRUE, link = TRUE, type="Table")`: Summary statistics for proportion of non-traditional opinion
+```{r trendSummary, echo = F, message = FALSE, warning=FALSE}
+analysis <- rbind(pre2012$analysis, post2012$analysis)
+knitr::kable(analysis, digits = 2, align = c("l", rep("c", 8))) %>%  
+  kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = T, position = "center")
+```
+
+The data reveal two trends; the longer trend from 1973-2011, and the more recent trend from 2012-2016.
+
+For the former  `r kfigr::figr(label = "trendSummary", prefix = TRUE, link = TRUE, type="Table")` reveals that the proportion of non-traditional opinion dropped by `r -round(analysis$PctChange[1], 0)`% from a high of `r round(analysis$Max[1], 2)` in `r round(analysis$YearHigh[1], 0)` to a low of `r round(analysis$Min[1], 2)` in `r round(analysis$YearLow[1], 0)`. The most significant decline of `r -round(analysis$PctChange[2], 0)`%  was among men over this time period from a high of `r round(analysis$Max[2], 2)` in `r round(analysis$YearHigh[2], 0)` to a low of `r round(analysis$Min[2], 2)` in `r round(analysis$YearLow[2], 0)`. The proportion of non-traditional opinion among women fell by  `r -round(analysis$PctChange[3], 2)`%
+
+The trend appeared to reverse over the period from 2012-2016. Overall, the proportion of non-traditional opinion increased by `r round(analysis$PctChange[4], 0)`%. The most significant increase was among women where the proportion of opinion grew  `r round(analysis$PctChange[6], 0)`%  from `r round(analysis$Min[6], 0)` in `r round(analysis$YearLow[6], 0)` to `r round(analysis$Max[6], 0)` in `r round(analysis$YearHigh[6], 0)`.
 
 ### Hypotheses
-To ascertain the degree to which a trend in the proportion of non-traditional opinion is extent, the following hypotheses were investigated for both males and females.     
+For the 1973-2011 period, the proportion of non-traditional opinion w.r.t. extra-marital conduct appeared to exhibit a negative trend. From 2012-2016, an upward trend seemed extant. As such, the following hypotheses were tested to ascertain the degree to which a trend in the proportion of non-traditional opinion was extent, for both the 1973-2011 and 2012-2016 periods. The hypotheses were tested for males and females separately.   
 * **Null Hypothesis**: There is no linear trend in non-traditional opinion over time.   
 * **Alternative Hypothesis**: There is a linear trend in non-traditional opinion over time.   
 
 ### Inference Conditions  
 The inference conditions were evaluated as follows:  
 1. **Independence:** All cases that contributed counts to the table were independent of all the other cases in the table.  
-2. **Success/Failure:** The minimum number of successes/failures was `r min(year$tables$freqTbl)`, exceeding the 10-count minimum threshold.
-3. **Sample Size:**  The expected frequency of non-traditional opinion per year, under the null hypothesis, was `round(mean(year$tables$freqTbl[2,,1], 0))` and `round(mean(year$tables$freqTbl[2,,2], 0))` for males and females respectively, exceeding the minimum five-count threshold. Furthermore, the sample was less than 10% of the U.S. adult population.  
+2. **Success/Failure:** The minimum number of successes/failures was `r min(pre2012$tables$freqTbl)`, exceeding the 10-count minimum threshold.
+3. **Sample Size:**  The expected frequency of non-traditional opinion per year, under the null hypothesis, was `r round(mean(pre2012$tables$freqTbl[2,,1], 0))` and `r round(mean(pre2012$tables$freqTbl[2,,2], 0))` for males and females respectively, exceeding the minimum five-count threshold. Furthermore, the sample was less than 10% of the U.S. adult population.  
 4. **Degrees of Freedom:** The chi-square test for trends has only one degree of freedom because the linear scoring means that when one expected value is given all the others are fixed.  
 
 That said, the conditions for parametric inference were met.
@@ -426,15 +441,23 @@ That said, the conditions for parametric inference were met.
 A chi-square trend test was contemplated for this hypothesis test. 
 
 ### Test Results
-Chi-square tests for trend in proportions was conducted in order to challenge the null hypothesis that no linear trend exists in opinion over time. As indicated in `r kfigr::figr(label = "yearX2", prefix = TRUE, link = TRUE, type="Table")`, the result was significant in favor of the alternative hypothesis for both groups, $X^2$(1, N = `year$tests$x2t$N[1]`) = `r round(year$tests$x2t$X.Squared[1], 0)`, $p \lt .05$  and $X^2$(1, N = `year$tests$x2t$N[2]`) = `r round(year$tests$x2t$X.Squared[2], 0)`, $p \lt .05$ for the male and female groups respectively. As such the null hypothesis was rejected in favor of the alternative hypothesis that states with 95% confidence, that a linear relationship is extant.
+Chi-square tests for trend in proportions was conducted in order to challenge the null hypothesis that no linear trend exists in opinion over time. 
 
 `r kfigr::figr(label = "yearX2", prefix = TRUE, link = TRUE, type="Table")`: Chi-square proportion trend test   
 ```{r yearX2, echo = F, message = FALSE, warning=FALSE}
-knitr::kable(year$tests$x2t, digits = 2, align = c("l", rep("c", 8))) %>%  
+years <- rbind(pre2012$tests$x2t, post2012$tests$x2t)
+knitr::kable(years, digits = 2, align = c("l", rep("c", 8))) %>%  
   kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = T, position = "center")
 ```
+**1973-2011**  
+As indicated in `r kfigr::figr(label = "yearX2", prefix = TRUE, link = TRUE, type="Table")`, the result was significant in favor of the alternative hypothesis for both groups, $X^2$(1, N = `r pre2012$tests$x2t$N[1]`) = `r round(pre2012$tests$x2t$X.Squared[1], 0)`, $p \lt .05$  and $X^2$(1, N = `r pre2012$tests$x2t$N[2]`) = `r round(pre2012$tests$x2t$X.Squared[2], 0)`, $p \lt .05$ for the male and female groups respectively. As such the null hypothesis was rejected in favor of the alternative hypothesis that states with 95% confidence, that a *negative* linear relationship was extant.
 
+The percent change in the proportion of non-traditional opinion overall was `r years$Pct.Change[1]`%, and `r years$Pct.Change[2]`%, and `r years$Pct.Change[3]`% for male and female respondents, respectively.
 
+**2012-2016**  
+Similarly, the data suggests a positive linear trend in non-traditional opinion from 2012-2016 for both male and female populations. As indicated in `r kfigr::figr(label = "yearX2", prefix = TRUE, link = TRUE, type="Table")`, the result was significant in favor of the alternative hypothesis for both populations, $X^2$(1, N = `r pre2012$tests$x2t$N[3]`) = `r round(pre2012$tests$x2t$X.Squared[3], 0)`, $p \lt .05$  and $X^2$(1, N = `r pre2012$tests$x2t$N[4]`) = `r round(pre2012$tests$x2t$X.Squared[4], 0)`, $p \lt .05$ for the male and female groups respectively. As such the null hypothesis was rejected in favor of the alternative hypothesis that states with 95% confidence, that a *positive* linear relationship was extant.
+
+The percent change in the proportion of non-traditional opinion overall was `r years$Pct.Change[4]`%, and `r years$Pct.Change[5]`%, and `r years$Pct.Change[6]`% for male and female respondents, respectively.
 ## Research Question 2: Opinion by Region
 ```{r region, cache=TRUE}
 region <- bivariate(xms$bivariate$region, y = "Opinion", x = "Region", title = "Opinion by Region",
@@ -559,7 +582,16 @@ knitr::kable(region$tests$dp$result, digits = 3, align = c("l", rep("c", 7))) %>
   kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = T, position = "center")
 ```
 
-In summary, opinion was not independent of geographic region.  The Northeast and Pacific regions had significantly higher proportions of people with non-traditional views w.r.t. extra-marital conduct.
+As such, opinion was not independent of geographic region.  
+
+`r kfigr::figr(label = "regionAnalysis", prefix = TRUE, link = TRUE, type="Table")`: Analysis of opinion by region
+```{r regionAnalysis, echo = F, message = FALSE, warning=FALSE}
+analysis <- region$analysis %>% select(Region, Opinion, PctProp, CumPct, RelativePct) %>% filter(Opinion == "Non-Traditional") 
+knitr::kable(analysis, digits = 0, align = c("l", rep("c", 4))) %>%  
+  kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = F, position = "center")
+```
+
+As indicated in `r kfigr::figr(label = "regionAnalysis", prefix = TRUE, link = TRUE, type="Table")`, nearly `r round(region$analysis$CumPct[7], -1)`% of the non-traditional opinion in the United States from 2012 to 2016 emerged from the Northeast and Pacific regions. Add in the Mountain region, and this percentage increases to `r round(region$analysis$CumPct[8], -1)`%. On average, respondents in the Northeast and Pacific regions were `r analysis$RelativePct[1]`% and `r analysis$RelativePct[2]`% more likely to have non-traditional opinions.
 
 
 ## Research Question 3: Opinion by Class
@@ -785,7 +817,7 @@ As indicated in `r kfigr::figr(label = "genderTestPlot", prefix = TRUE, link = T
 
 `r gender$tests$dp$statements[[1]]$conclude`
 
-
+Men in the United States from 2012-2016 were `r 100 * (as.numeric(gender$tests$dp$result[8]) - 1)`% more likely to believe that extra-marital conduct was sometimes wrong or not wrong at all.  
 
 ## Research Question 5: Opinion by Age
 ```{r age, cache=TRUE}
@@ -913,7 +945,8 @@ knitr::kable(age$tests$dp$result, digits = 3, align = c("l", rep("c", 7))) %>%
   kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = T, position = "center")
 ```
 
-Using the Bonferroni correction to correct for the increased risk of rare events over multiple tests resulted in non-significant differences in the proportions across age group; however, relative risk was used as a proxy to understand the relative differences of opinion across age groups. Accordingly, the 25-44 age group was decidely more likely than other age groups to hold non-traditional opinions w.r.t. extra-marital conduct.
+Using the Bonferroni correction to correct for the increased risk of rare events over multiple tests resulted in non-significant differences in the proportions across age group; however, relative risk was used as a proxy to understand the relative differences of opinion across age groups. That said, the `r age$analysis$Age[5]` age group accounted for `r round(age$analysis$PctProp[5], 0)`% of the non-traditional opinion in the country, followed by the `r age$analysis$Age[6]` age group with `r round(age$analysis$PctProp[6], 0)`%  of such opinion. The other groups accounted for approximately `r round(mean(age$analysis$PctProp[7:8]))`% of non-traditional opinion each. 
+the 25-44 age group was decidely more likely than other age groups to hold non-traditional opinions w.r.t. extra-marital conduct.
 
 That said, the results of the chi-square test were considered more reliable and therefore, the conclusion was that opinion was not independent of age.  
 
@@ -1042,4 +1075,67 @@ knitr::kable(marital$tests$dp$result, digits = 3, align = c("l", rep("c", 7))) %
   kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = T, position = "center")
 ```
 
-In summary, opinion was not independent of marital status.  
+Differences in proportion of opinion, as indicated in `r kfigr::figr(label = "maritalDPTest", prefix = TRUE, link = TRUE, type="Table")`, were significant across most comparisoins.  The largest differences were among those who were married or widowed and those who were separated.
+
+`r kfigr::figr(label = "maritalAnalysis", prefix = TRUE, link = TRUE, type="Table")`: Analysis of opinion by marital status 
+```{r maritalAnalysis, echo = F, message = FALSE, warning=FALSE}
+analysis <- marital$analysis %>% select(.[[1]], Opinion, PctProp, CumPct, RelativePct) %>% filter(Opinion == "Non-Traditional") 
+knitr::kable(analysis, digits = 0, align = c("l", rep("c", 4))) %>%  
+  kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = F, position = "center")
+```
+As indicated in `r kfigr::figr(label = "maritalAnalysis", prefix = TRUE, link = TRUE, type="Table")`, separated (`r round(marital$analysis$PctProp[6], 0)`%) and never married (`r round(marital$analysis$PctProp[7], 0)`%) respondents accounted for over `r round(marital$analysis$CumPct[7], -1)`% of the non-traditional opinion with respect to extra-marital conduct in this country from 2012-2016. On average, separated and never married repondents were `r round(analysis$RelativePct[1], 0)`%, and `r round(analysis$RelativePct[2], 0)`% more likely to have non-traditional opinion. Divorced respondents constituted `r round(marital$analysis$PctProp[8], 0)`% of non-traditional opinion. Married and widowed respondents represented `r round(marital$analysis$PctProp[9], 0)`% and `r round(marital$analysis$PctProp[10], 0)`% such opinion, respectively. 
+
+# Discussion
+Researchers, academics, and the media posit that we are amidst a major shift in attitudes and behaviors with respect to marriage. Increasing prevalence of open marriages, consentual non-manogamy (CNM) arrangements, and polyamorous relationships evidence a challenge towards attitudes of marriage and manogamy. This study sought to explore the evolution and nature of opinion with respect to extra-marital sex by first, examining opinions and how they have changed over time, then by exploring the nature of opinion by gender, class, marital status, age, and geographic region.  Opinions were characterized as *traditional* if extra-marital sex was considered to be always or almost always wrong, and *non-traditional* if such behavior was considered sometimes wrong, or not wrong at all. 
+
+## Key Findings
+The results of the study are summarized in `r kfigr::figr(label = "summary", prefix = TRUE, link = TRUE, type="Table")` below.
+
+`r kfigr::figr(label = "summary", prefix = TRUE, link = TRUE, type="Table")`: Summary of Results
+```{r summary, echo = F, message = FALSE, warning=FALSE}
+results <- openxlsx::read.xlsx("../data/gssvars.xlsx", sheet = 5)
+knitr::kable(results) %>%  
+  kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = T, position = "center")
+```
+
+The significant findings of this analysis are:  
+1. From 1973-2011, the proportion of people holding non-traditional views with respect to extra-marital conduct decreased by `r -round(pre2012$analysis$PctChange[1], 0)`% from a high of `r round(pre2012$analysis$Max[1], 2)` in `r round(pre2012$analysis$YearHigh[1], 0)` to a low of `r round(pre2012$analysis$Min[1], 2)` in `r round(pre2012$analysis$YearLow[1], 0)`.  
+2. From 2012-2016 the trend reverses. The proportion of non-traditional opinion increased by `r round(post2012$analysis$PctChange[4], 0)`%. The most significant increase was among women where the proportion of opinion grew  `r round(post2012$analysis$PctChange[6], 0)`%  from `r round(post2012$analysis$Min[6], 0)` in `r round(post2012$analysis$YearLow[6], 0)` to `r round(post2012$analysis$Max[6], 0)` in `r round(post2012$analysis$YearHigh[6], 0)`.  
+3. Geograhic region is a significant indicator of opinion w.r.t extra-marital conduct. Nearly `r round(region$analysis$CumPct[7], -1)`% of the non-traditional opinion in the United States from 2012 to 2016 emerged from the Northeast (`r round(region$analysis$PctProp[6], 0)`%) and Pacific regions (`r round(region$analysis$PctProp[7], 0)`%) . Add in the Mountain region (`r round(region$analysis$PctProp[8], 0)`%) , and this percentage increases to `r round(region$analysis$CumPct[8], -1)`%. On average, respondents in the Northeast and Pacific regions were `r analysis$RelativePct[1]`% and `r analysis$RelativePct[2]`% more likely to have non-traditional opinions. The lowest proportion of non-traditional opinion was found in the MidWest and South, each accounting for approximately `r round(mean(region$analysis$PctProp[9], region$analysis$PctProp[10]), 0)`% of the non-traditional opinion in the U.S.  
+4. Opinion was not associated with socio-economic class.   
+5. Men in the United States from 2012-2016 were `r 100 * (as.numeric(gender$tests$dp$result[8]) - 1)`% more likely to believe that extra-marital conduct was sometimes wrong or not wrong at all.    
+6. Though age was a significant indicator of opinion, there was little practical significance of opinion between the age groups.  The `r age$analysis$Age[5]` age group accounted for `r round(age$analysis$PctProp[5], 0)`% of the non-traditional opinion in the country, followed by the `r age$analysis$Age[6]` age group at `r round(age$analysis$PctProp[6], 0)`%.  There was no difference at ages 45 and above. 
+7. Separated (`r round(marital$analysis$PctProp[6], 0)`%) and never married (`r round(marital$analysis$PctProp[7], 0)`%) respondents accounted for over `r round(marital$analysis$CumPct[7], -1)`% of the non-traditional opinion with respect to extra-marital conduct in this country from 2012-2016. On average, separated and never married repondents were `r round(analysis$RelativePct[1], 0)`%, and `r round(analysis$RelativePct[2], 0)`% more likely to have non-traditional opinion. Divorced respondents constituted `r round(marital$analysis$PctProp[8], 0)`% of non-traditional opinion. Married and widowed respondents represented `r round(marital$analysis$PctProp[9], 0)`% and `r round(marital$analysis$PctProp[10], 0)`% such opinion, respectively. 
+
+## Insights and Implications
+**Trends in Opinion**  
+Two trends emerged from the analyis. The first trend began in 1973, amid the sexual revolution of the 60's and 70's, where non-traditional opinion with respect to extra-marital conduct was at 20%, its 43 year peak. The trend towards more traditional opinion over the subsequent years may have emerged as a retraction from the decidedly more relaxed views of the 60's and 70's. 
+
+In 2002, this trend appears to have reversed, as a new generation came of age, and has continued through the present day. The dramatic increase in the proportion of non-traditional opinion observed over the past five years conflates with existing research which cites a dramatic shift in the way in which marriage as in institution, is now being conceived. 
+
+**Opinion by Region**  
+Geography is a significant indicator of views and opinions with respect to extra-marital conduct. It came as no surprise that the greatest proportion of non-traditional opinion existed in the Northeast and Pacific regions. Similarly, the South appears to hold the most traditional views and the Midwest and Mountain regions represent the moderate range. 
+
+**Opinion by Class**   
+The lack of significance of class as an indicator of opinion was somewhat of a surprise. Greater affluence (and economic freedom) did not bring significantly more liberal opinion on the matter as was expected. 
+
+**Opinion by Age**  
+The greatest proportion of non-traditional opinion among the 25-44 age group vis-a-vis the relatively more conservative views of the 45 and over age groups could reflect the generational shift in opinion that has been cited amongst researchers and the media. It would also be reasonable to assume that the number of married years would correlate positively with age, and that opinions may become more concervative among those in longer marriages. Further research could examine the degree to which marital status, length of marriage, and age affect opinion.
+
+**Opinion by Marital Status**
+The most conservative opinions, not surprisingly, were among the married and widowed groups. Similarly expected, separated people were, on average, `r round(marital$analysis[6,12] - 100, 0)`% more likely to have non-traditional opinions.  Their opinion might indicate more about their marital status than the other way around.
+
+# Conclusion
+Amid the growing amount of research citing a dramatic shift in the marriage institution, one characterized by increasing acceptance of same-sex marriage, open marriages, and consentual non-manogamy (CNM) arrangements, I sought to investigate the degree to which this shift would be evinced by available data. More specifically, I focused on understanding the nature and evolution of a single aspect of marriage: opinions vis-a-vis fidelity. 
+
+**Nature of Opinion**  
+Opinions with respect to extra-marital conduct ranged from always or almost always wrong (traditional opinion) to sometimes wrong and not wrong at all (non-traditional opinion). Geographic region, age, gender, marital status are significant indicators of opinion, but not in any surprising ways.  Naturally, people in the Northeast and Pacific regions have the highest proportions of people with non-traditional opinions and women are less likely than men to have such views. The younger generations tend to have the more liberal perspectives and the highest proportions of non-traditional opinion were among the separated and divorced. No surprises here.
+
+**Evolution of Opinion**  
+That said, a shift in beliefs and opinions w.r.t. extra-marital conduct is definately extant in the data. From the early 70's until about 2002, the trend was towards increasingly conservative thought and opinion, perhaps a natural retraction or readjustment following the sexual revolution of the 60's and 70's. However, 2002 and 2012 mark inflection points of shifting opinions and attitudes regarding extra-marital conduct. From 2012-2016 the proportion of non-traditional opinion increased by `r round(post2012$analysis$PctChange[4], 0)`%. The most significant increase was among women where the proportion of non-traditional opinion grew  `r round(post2012$analysis$PctChange[6], 0)`%  from `r round(post2012$analysis$Min[6], 0)` in `r round(post2012$analysis$YearLow[6], 0)` to `r round(post2012$analysis$Max[6], 0)` in `r round(post2012$analysis$YearHigh[6], 0)`. This conflates with the coming of age of a new generation characterized by diminished deference for marriage as an institution, increasing acceptance of same-sex marriage, and the (re) emergence of open marriages, consentual non-manogamy relationships and the like. 
+
+A dramatic shift in marriage as an institution is afoot. Expectations of marriage "until death do us part" are changing and  increasing numbers of men and woman admit to having had extra-marital affairs. Social networks have dramatically shifted the scope, range, frequency, and opportunity for interaction. All these factors conflate to produce the phenomena responsible for much of the societal changes we observe.  Future studies might explore the factors, such as social networks, that (re)shape our deference for an belief in many of our institutions. 
+
+
+
+

@@ -1,9 +1,9 @@
 #==============================================================================#
-#                                  formatData                                  #
+#                                  analyze2DData                                  #
 #==============================================================================#
-#' formatData
+#' analyze2DData
 #'
-#' \code{formatData} Render frequency and proportion data
+#' \code{analyze2DData} Render frequency and proportion data
 #'
 #' @author John James, \email{jjames@@datasciencesalon.org}
 #'
@@ -13,7 +13,7 @@
 #'
 #' @family xmar functions
 #' @export
-formatData <- function(x2) {
+analyze2DData <- function(x2) {
 
   # Format observed and expected frequency and data
   freqDf <- melt(round(x2$observed, 0))
@@ -27,6 +27,14 @@ formatData <- function(x2) {
                                Prop = value / Ttl) %>%
                         select((.[[1]]), Opinion, value,
                                posFreq, posProp, Ttl, Prop, Pct))
+  df <- as.data.frame(df %>% group_by(Opinion) %>%
+                        mutate(TtlProp = sum(Prop)))
+  df <- as.data.frame(df %>% arrange(Opinion, desc(Prop)) %>%
+                        mutate(PctProp = Prop / TtlProp * 100))
+  df <- as.data.frame(df %>% group_by(Opinion) %>%
+                        arrange(Opinion, desc(PctProp)) %>%
+                        mutate(CumPct = cumsum(PctProp),
+                               RelativePct = PctProp / mean(PctProp) * 100))
 
 
 

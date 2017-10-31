@@ -4,8 +4,8 @@
 \alias{multivariate}
 \title{multivariate}
 \usage{
-multivariate(data, y, x, z = NULL, title, success = "Non-Traditional",
-  conf = 0.95, alpha = 0.05, alternative = "two.sided")
+multivariate(data, y, x, title, success = "Non-Traditional", conf = 0.95,
+  alpha = 0.05, alternative = "two.sided")
 }
 \arguments{
 \item{data}{Data frame containing response and explanatory variable}
@@ -13,8 +13,6 @@ multivariate(data, y, x, z = NULL, title, success = "Non-Traditional",
 \item{y}{Character string description for the response variable}
 
 \item{x}{Character string description of the explanatory variable}
-
-\item{z}{Character string description of the control variable}
 
 \item{title}{Character string containing the plot title}
 
@@ -31,12 +29,13 @@ multivariate(data, y, x, z = NULL, title, success = "Non-Traditional",
 controlling for gender.
 }
 \seealso{
-Other xmar functions: \code{\link{bivariate}},
-  \code{\link{diffTest}}, \code{\link{formatData}},
-  \code{\link{plotBars}}, \code{\link{plotDiffTest}},
-  \code{\link{plotLines}}, \code{\link{plotX2}},
-  \code{\link{preprocess}}, \code{\link{univariate}},
-  \code{\link{x2Test}}, \code{\link{x2TrendTest}}
+Other xmar functions: \code{\link{analyze2DData}},
+  \code{\link{analyzeTrend}}, \code{\link{bivariate}},
+  \code{\link{diffTest}}, \code{\link{plotBars}},
+  \code{\link{plotDiffTest}}, \code{\link{plotLines}},
+  \code{\link{plotX2}}, \code{\link{preprocess}},
+  \code{\link{univariate}}, \code{\link{x2Test}},
+  \code{\link{x2TrendTest}}
 }
 \author{
 John James, \email{jjames@datasciencesalon.org}

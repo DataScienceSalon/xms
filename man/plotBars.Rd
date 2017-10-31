@@ -21,12 +21,13 @@ plotBars(data, y, x, title)
 proportions each segment represents.
 }
 \seealso{
-Other xmar functions: \code{\link{bivariate}},
-  \code{\link{diffTest}}, \code{\link{formatData}},
-  \code{\link{multivariate}}, \code{\link{plotDiffTest}},
-  \code{\link{plotLines}}, \code{\link{plotX2}},
-  \code{\link{preprocess}}, \code{\link{univariate}},
-  \code{\link{x2Test}}, \code{\link{x2TrendTest}}
+Other xmar functions: \code{\link{analyze2DData}},
+  \code{\link{analyzeTrend}}, \code{\link{bivariate}},
+  \code{\link{diffTest}}, \code{\link{multivariate}},
+  \code{\link{plotDiffTest}}, \code{\link{plotLines}},
+  \code{\link{plotX2}}, \code{\link{preprocess}},
+  \code{\link{univariate}}, \code{\link{x2Test}},
+  \code{\link{x2TrendTest}}
 }
 \author{
 John James, \email{jjames@datasciencesalon.org}

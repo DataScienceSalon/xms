@@ -35,18 +35,19 @@ bivariate <- function(data,  y, x, title, success = "Non-Traditional",
                  success, conf = conf, alpha = alpha)
 
   # Plot Data
-  plotData <- formatData(x2$htest)
-  observed <- plotBars(plotData, y = y, x = x, title = paste("Observed", title))
+  analysis <- analyze2DData(x2$htest)
+  observed <- plotBars(analysis, y = y, x = x, title = paste("Observed", title))
   x2Plot <- plotX2(x2$result)
 
   # Format results
-  analysis = list(
+  result = list(
     tables = list(
       obsFreq = x2$htest$observed,
       expFreq = x2$htest$expected,
-      obsProp = round(prop.table(x2$htest$observed), 3),
-      expProp = round(prop.table(x2$htest$expected), 3)
+      obsProp = round(prop.table(x2$htest$observed, 2), 3),
+      expProp = round(prop.table(x2$htest$expected, 2), 3)
     ),
+    analysis = analysis,
     tests = list(
       x2 = x2,
       dp = dp
@@ -56,5 +57,5 @@ bivariate <- function(data,  y, x, title, success = "Non-Traditional",
       x2Plot = x2Plot
     )
   )
-  return(analysis)
+  return(result)
 }
