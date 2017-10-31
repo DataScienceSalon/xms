@@ -1,14 +1,37 @@
 Package: xms
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Extra-Marital Sex: Attitudes and Behaviors
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Authors@: person("John", "James", email = "jjames@datasciencesalon.org",
+                  role = c("aut", "cre"))
+Maintainer: John James <jjames@datasciencesalon.org>
+Description: Explores sexual behavior as it has, or has not evolved over the past three decades.
+    Examines the relationship between attitudes and behaviors, with respect to age, class,
+    education and geographic region.
+License: MIT
 Encoding: UTF-8
-LazyData: true
+LazyData: TRUE
+Depends:
+    R (>= 3.4.1),
+    data.table,
+    dplyr,
+    extrafont
 Suggests: knitr,
     rmarkdown
 VignetteBuilder: knitr
+Imports:
+    epitools,
+    formatR,
+    ggplot2,
+    ggthemes,
+    gridExtra,
+    kableExtra,
+    kfigr,
+    openxlsx,
+    reshape2,
+    RColorBrewer,
+    stargazer,
+    statsr,
+    vcd,
+    vcdExtra
+RoxygenNote: 6.0.1

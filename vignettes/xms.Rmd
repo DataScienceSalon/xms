@@ -1,0 +1,1045 @@
+---
+title: "Marriage Sex & Opinions"
+author: "John James jjames@datasciencesalon.org"
+date: '`r format(Sys.time(), "%d %B, %Y")`'
+output:
+  rmdformats::readthedown:
+    highlight: kate
+    css: rmdStyles.css
+bibliography: library.bib
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+```{r knitr_init, echo=FALSE, cache=FALSE, warning=FALSE, message=FALSE}
+options(knitr.table.format = "html")
+options(max.print="75", scipen=999, width = 800)
+knitr::opts_chunk$set(echo=FALSE,
+	             cache=FALSE,
+               prompt=FALSE,
+               tidy=TRUE,
+               root.dir = "..",
+               fig.height = 8,
+               fig.width = 20,
+               comment=NA,
+               message=FALSE,
+               warning=FALSE)
+knitr::opts_knit$set(width=100, figr.prefix = T, figr.link = T)
+knitr::knit_hooks$set(inline = function(x) {
+  prettyNum(x, big.mark=",")
+})
+```
+
+```{r loadData, cache=TRUE}
+load(file = "../data/GSS.Rdata")
+```
+
+```{r preprocess, cache=TRUE}
+xms <- preprocess(GSS)
+```
+
+```{r eda, cache=FALSE}
+eda <- univariate(xms$univariate)
+```
+
+# Abstract
+# Introduction
+There is no dearth of research on American's changing attitudes towards marriage, its primacy as a way of life, and its exclusivity. Approximately four-in-ten Americans say that the present institution of marriage is becoming obsolete [@Taylor2010]. According to the same Pew Research 2010 study, 72% of all adults in America were married in 1960. By 2008, this percentage had dropped to 52%. From this apparent decline in marriage, Americans are slowly becoming more accepting of open relationships, consensual non-monogamy (CNG) practices, and the like. Nearly half of the population of Americans would consider an open relationship, though fewer than 4% actually claim to be in one [@Avvo]. Notwithstanding, nearly 22% of married men and 14% of married women admit to having an affair at least once during their marriages, with or without the spousal consent [@Johnson2017].
+
+The purpose of this study is to examine the nature and evolution of attitudes and opinions with respect to (w.r.t.) extra-marital conduct. Serving as the data source are the opinions of over, 65,000 Americans (44% women, 56% men) over a period of 44 years (1972-2016), courtesy of the General Social Survey (GSS) [@NORCa], a project of NORC at the University of Chicago that monitors societal change and studies the growing complexity of American society. 
+
+## Research Questions
+Opinions were characterized as "traditional" when the attitude is that extra-marital conduct is always wrong, or almost always wrong. Alternatively, opinions were labelled as "non-traditional" if the belief is that such conduct is sometimes wrong or not wrong at all. Throughout this study, the short hand of "opinion" refers to "non-traditional" opinion. That said, the nature of opinion is examined via the following 11 research questions.
+
+`r kfigr::figr(label = "rq", prefix = TRUE, link = TRUE, type="Table")`: Research Questions
+```{r rq, echo = F, message = FALSE, warning=FALSE}
+rq <- openxlsx::read.xlsx("../data/gssvars.xlsx", sheet = 3)
+knitr::kable(rq) %>%  
+  kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = T, position = "center")
+```
+
+## Document Organization
+The **methods** section describes the data, the sampling techniques, data preprocessing, and introduces the methods, descriptive and inferential techniques used in the analyses. Hypotheses are offered, analyzed and tested in the **results** section. The **discussion** section describes the significance of the findings vis-a-vis currently available research. Lastly, the **conclusion** synthesizes the key points.
+
+# Methods
+## Data 
+The General Social Survey (GSS), a project of the NORC at the University of Chicago, provided the data upon which this report is based. Formerly known as the National Opinion Research Center, "NORC at the University of Chicago is an objective non-partisan research institution that delivers reliable data and rigorous analysis to guide critical programmatic, business, and policy decisions" [@NORC]. Principally funded by the National Science Foundation, the GSS has been monitoring evolution, complexity opinions, behaviors, and attributes of American society since 1972. Targeting the adult population, age 18 and over in the United, the data covers a diverse range of issues including national spending priorities, marijuana use, crime and punishment, race relations, quality of life, confidence in institutions, and sexual behavior.
+
+### Data Sampling Strategy
+The GSS employed a multi-stage area full probability sampling strategy. 
+
+At the first stage, NORC employed the Standard Metropolitan Statistical Areas (SMSAs) or non-metropolitan counties selected in NORC's Master Sample, as the Primary Sampling Unit (PSU). These were further subdvided into three categories. Category 1, representing 56% of the US population, comprised of the nations largest metropolitan areas or Consolidated Statistical Areas (CSAs) with a population of at least 1,543,728 (0.5 percent of the 2010 Census U.S. population). The second category, covering 35% of the US population, included Core Based Statistical Areas and CSAs with at least 8 tracts that are predominantly street-style addresses.  The third category spanned 9% of the US population and consisted of small counties with at most 8 tracts. Minimum size for tracts were defined as 300 respondents.
+
+Similarly, the second stage sampling was conducted in three categories. Category 1 comprised 216 type A tracts (city addresses) and 8 block-groups within type B (rural) tracts. Category 2, consisted of 8 segments per first-stage selection resulted in 480 segments in the 2010 National Sample Design, but GSS used only 120 of them. For category 3 first-stage selections, the 2010 National Sample Design only selected 5 segments per first-stage selection, but GSS used 4 and one half of them for a total of 56 segments.  
+
+The sampling strategy employed by GSS was designed to give each household an equal probability of being included in the sample. For each household selected, sampling procedures were undertaken to ensure that each individual in that household had an equal probability of being interviewed. 
+
+### Data Sampling Bias
+The GSS samples closely resemble distributions reported in the Census and other authoritative sources. However, survey non-response, sampling variation, and various other factors have introduced potential sources of bias and resulted in variance from Census distributions on some variables. For instance all full-probability samples under-represent males and block quota samples under-represented men in full-time employment. Weights were designed (and should be employed when using GSS 2004 or later), to assure proper representation of non-response sub-samples, and other factors. For a full discussion of distributional variation due to non-response, one should refer to the GSS Methodological Reports in the help and resources section at https://gssdataexplorer.norc.org/,
+
+This full probability design was acknowledged by the National Science Foundation to be superior to simple random sampling, and **generalizable** to the population of adult citizens in America.  Consisting of over 60,000 individual responses, spanning over 40 years, the GSS data remains one of the nations treasures, providing data for inference about American society to researchers, academics, students, politicians, and opinion makers.  Yet, as respondents were randomly selected (not assigned), one is careful to limit inferences to **association, and not causation.**  That said, the extent to which results of a research question can be generalized to the population will require that the inference conditions are met, specifically the proportion success/failure condition. As such, the question of "generalizeability" will need to be re-addressed independently for each research question.
+
+### Data Variables
+The following table lists the variables extracted from the GSS data.
+
+`r kfigr::figr(label = "vars", prefix = TRUE, link = TRUE, type="Table")`: Study Variables
+```{r vars, echo = F, message = FALSE, warning=FALSE}
+vars <- openxlsx::read.xlsx("../data/gssvars.xlsx", sheet = 4)
+knitr::kable(vars) %>%  
+  kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = T, position = "center")
+```
+
+### Data Preprocessing
+The GSS variables were extracted for years 1972 thru 2016 and the following variables were created.  
+
+**Opinion**: Two factor variable:  
+* Traditional: Always wrong and almost always wrong  
+* Non-Traditional: Sometimes wrong and not wrong at all  
+
+**Age Group**: Four factor variable:   
+* 18-24   * 25-44  
+* 45-64   * 65+  
+
+**Political Party**: Four factor variable:   
+* Democrat: Strong democrat and not strong democrat  
+* Independent: Independent, near democrat, independent, and independent near republican  
+* Republican: Strong republican and not strong republican  
+* Other  
+
+**Region**: Five factor variable:   
+* Northeast: Comprised of responses from the New England and Mid Atlantic regions   
+* MidWest: Comprised of responses from the East Central and West Central regions  
+* South: Consisting of responses from the South Atlantic and East and West South Central regions  
+* Mountain    
+* Pacific   
+
+Responses with "NAs", "Don't Know", and other non-response values for the GSS variables in scope, were filtered from the data set. 
+
+## Data Analysis
+
+### Overview
+Univariate analyses (exploratory data analysis) provided the descriptive and inferential statistics on a univariate basis.  The multivariate analyses examined, tested, and reported the strength and direction of associations between variables. 
+
+#### Univariate Analysis
+For quantitative variables, central tendency (mean, mode and median) and dispersion: range, variance, maximum, minimum, quartiles (including the interquartile range), and standard deviation were computed. Bar charts and histograms were rendered to graphically depict their distributions. For categorical variables, frequency distribution (contingency) tables and bar charts were rendered. For inferential statistics, hypothesis testing aproaches revealed the degree to which each variable was representative of the population
+
+#### Multivariate Analysis
+Provided conditions for inference were met, hypothesis based chi-square tests of independence were conducted to evaluate the association between opinion and one or more of the explanatory variables. To characterize the difference in non-traditional opinion between two independent samples, both the **hypothesis test** and **confidence interval approaches** were used. 
+
+For the **hypothesis test** approach, z-scores are computed, and the null hypothesis that the true difference in non-traditional opinion between the two populations is equal, is rejected in favor of an alternative hypothesis that the true population proportions of non-traditional opinion are different (greater than or less than), if the probability of encountering such a z-score (p-value) is less than the probability $\alpha$ of a type I error. 
+
+For the **confidence interval** approach, 95% confidence intervals for the true population difference in the proportion of non-traditional opinion, given the point estimate (observed difference) for the true difference, are computed. If the confidence interval for the true difference in the proportion of non-traditional opinion does not include zero (the null hypothesis), the null hypothesis that the true proportion of non-traditional opinion in the two populations are the same, is rejected. The analysis will confirm the degree to which both approaches agree. 
+
+### Data Analysis Methodology
+The following hypothesis driven approach was used for the univariate and multivariate analyses.  
+1. Plot the data    
+2. State Hypotheses      
+3. Check Parametric Inference Conditions    
+4. Determine the necessary minimum sample size  (Single Proportion Inference)
+5. Select appropriate statistical method / test statistic    
+6. Compute the p-value, confidence intervals   
+7. Interpret and report results.     
+
+#### Plot The Data
+For the *univariate* analyses, data tables and bar plots illuminate the frequencies and proportions of responses for each level of the categorical variable. Histograms graphically depict the distribution of quantitative variables in the sample.  For the *multivariate* analysis, data tables and bar plots show the proportion of opinion at each level of the explanatory categorical variable. The effect of a quantitative variable, such as the number of hours watching television, on opinion is graphically depicted using boxplots.   
+
+#### State Hypotheses
+Three types of hypotheses statements were used in this study.   
+1. Single Proportion  
+2. Difference of Two Proportions  
+3. Association 
+
+**Single Proportion**  
+This type of hypothesis statement, used in the univariate analysis of categorical variables, was used to determine the extent to which a sample proportion is equal to the true population proportion and takes the following form.  
+$H_0$ $p - \hat{p} = 0$   
+$H_a$ $p - \hat{p} \neq 0$    
+where:   
+$p$ is the true population proportion  
+$\hat{p}$ is the observed sample proportion  
+
+**Differences in two Proportions**   
+This type of hypothesis statement was used in the multivarate analysis to determine the true difference in the proportion of non-traditional opinion for two populations and takes the following form.  
+$H_0$ $p_1 - p_2 = 0$   
+$H_a$ $p_1 - p_2 \neq 0$    Two sided, or  
+$H_a$ $p_1 < p_2$           One sided, or  
+$H_a$ $p_1 > p_2$           One sided  
+where:   
+$p_1$ is the proportion of non-tradition opinion in the first population of interest   
+$p_2$ is the proportion of non-tradition opinion in the second population of interest  
+
+**Association**   
+This type of hypothesis statement was used to ascertain the association between opinion and categorical explanatory variables and takes the following form.  
+$H_0$ $p_1 = p_{10}, p_2 = p_{20}, ...p_k = p_{k0}$     
+$H_a$ At least one proportion is different from the others.  
+where:  
+$k$   is the number of response categories  
+$p_k$ is the *observed* proportion for the $k^{th}$ response category  
+$p_{k0}$ is the *expected* proportion for the $k^{th}$ response category
+
+#### Inference Conditions
+Statistical inferences were derived from parametric statistics and the central limit theoreom, whereby the former assumes that sample data comes from a population distribution with a fixed set of parameters, and the later assumes that the sampling distribution for the parameter of interest is normal. The parameters for inferences for proportions are $N(\mu, \sigma^2)$, where $\mu$ is the population proportion parameter $\hat{p}$ and $\sigma^2$ is the variation of of the population proportion parameter. The degree to which the distribution can be considered normal depends upon the type of inference being undertaken.
+
+**Inference for Single Proportion**   
+These conditions applied to the univariate analyses of the categorical variables. One can assume that the sampling distribution of the proportion $\hat{p}$ is normal if:  
+1. **Independence:** The sample observations are independent. Since all samples were obtained through complex random sampling, and the sample consists of less than 10% of the adult U.S. population, independence was assumed for all statistical tests.  
+2. **Success/Failure:** There must be a minimum of ten successes and failures in the sample.
+
+**Inference for Difference of Two Proportions**   
+These conditions applied to the multivariate analyses of the difference in the proportion of non-traditional opinion in two populations. One can assume that the sampling distribution of the *difference* of two proportions $p1 - p2$ is normal if:  
+1. **Within Sample Independence:** Each sample meets the independence criteria, specifically, samples were obtained from a random sampling process and consists of less than 10% of hte adult U.S. population.
+2. **Croos-Sample Independence:** Both samples are independent from each other. 
+
+**Inference for Association (Chi-square goodness-of-fit)**   
+These conditions applied to the multivariate analyses of the association between opinion and the various explanatory variables. The following three conditions were confirmed for all association tests. 
+1. **Independence:** Each case that contributes a count to the table must be independent of all the other cases in the table.
+2. **Sample Size:**  Each particular scenario (i.e. cell count) must have at least 5 *expected* cases. 
+3. **Degrees of Freedom:** The contingency table must be associated with a chi-square distribution with 2 or more degrees of freedom.
+
+#### Minimum Sample Size
+Minimum required sample sizes were computed during the univariate analysis to confirm that the sample parameters were within a 5% margin of error of the true population parameters. The minimum sample size for estimating the population proportion was computed as follows:  
+
+$$N_{min} = \frac{p_l(1-p_l)}{(\frac{me}{z^*})^2}$$
+where
+$p_l$ is the sample proportion for the categorical variable at level $l$
+$me$ is the margin of error
+$z^*$ is the critical value on the z-distribution for the designated margin of error
+
+#### Statistical Methods 
+Four types of statistical methods were used to evaluate the hypotheses statements:   
+1. Single proportion z-tests for estimating the true population parameter.
+2. Two-proportion z-tests for the difference in proportions with confidence intervals.
+3. Chi-square test for independence 
+
+##### Single Proportion z-test
+Single proportion z-tests were conducted to used to construct confidence intervals for a population proportion, and is computed as follows:
+$$\hat{p} \pm z^* * SE$$
+where:  
+$\hat{p}$ is the point estimate for the population proportion, e.g. the sample proportion  
+$Z^*$ is the $z_{\alpha/2}$ critical value for a two sided z-distribution at a 95% confidence level $\approx 1.96$   
+
+The standard error $SE$ is computed as follows:    
+$$SE= \sqrt{\frac{\hat{p}(1-\hat{p})}{n}}$$  
+where:  
+$n$ is the sample size  
+$\hat{p}$ is the the sample proportion of interest
+
+
+##### Two proportion z-test 
+To evaluate hypotheses w.r.t. the difference in two proportions, z-tests were conducted using the *pooled* proportions for the standard error calculation. Pooled proportions, $\hat{p}$, were calculated as follows:
+
+$$\hat{p} = \frac{\hat{p_1}n_1 + \hat{p_2}n_2}{n_1 + n_2}$$  
+where:  
+$n1$ is the sample size of the sample 1
+$n2$ is the sample size of the sample 1
+$p1$ is the the proportion of of from sample 1
+$p2$ is the the proportion of of from sample 2
+
+Given the pooled proportion, the *pooled* standard error, $SE_{pooled}$, for the difference in proportions was calculated as follows:  
+$$SE_{pooled} = \sqrt{\frac{\hat{p}(1-\hat{p})}{n_1} + \frac{\hat{p}(1-\hat{p})}{n_2}}$$  
+where:  
+$\hat{p}$ is the pooled proortion calculated above  
+$n1$ is the sample size of the sample 1
+$n2$ is the sample size of the sample 2
+
+Lastly, the z-statistic under the null hypothesis of equal proportions was calculated as follows:  
+$$Z = \frac{(\hat{p_1} - \hat{p_2}) - 0}{SE_{pooled}}$$ 
+The z-statistic was used to calculate a p-value by comparing the value of the statistic for each random variable $X$ to a *standard normal* distribution ($X \sim N(\mu = 0, \sigma^2 = 1)$. The selected level of confidence for all statistical tests was 95% ($\alpha = 0.05$). If the p-value was less than or equal to $alpha$, the null hypothesis was rejected.  Otherwise, the null hypothesis was not rejected. The p-value for a guassian distribution can be readily obtained by most statistical software packages and is computed as follows:  
+$$p(x;\mu, \sigma^2) = \frac{1}{\sqrt{2\pi} * \sigma} * exp(-\frac{(x-\mu)^2}{2\sigma^2})$$
+where:  
+$x$ = random variable  
+$\mu$ = mean of random variable $x$    
+$\sigma$ = standard deviation of a random variable $x$     
+
+Z-tests were conducted to compute the confidence interval for the difference in two proportions. The 95% confidence intervals for the differences in two proportions were computed as follows:  
+$$C = (\hat{p_1} - \hat{p_2}) \pm Z^* * SE$$
+where:  
+$\hat{p_1}$ is the the proportion of interest from sample 1
+$\hat{p_2}$ is the the proportion of interest from sample 1
+$Z^*$ is the $z_{\alpha/2}$ critical value for a two sided z-distribution at a 95% confidence level $\approx 1.96$  
+
+The standard error $SE$ is computed as follows:  
+$$SE= \sqrt{\frac{\hat{p_1}(1-\hat{p_1})}{n_1} + \frac{\hat{p_2}(1-\hat{p_2})}{n_2}}$$  
+where:  
+$n1$ is the sample size of the sample 1
+$n2$ is the sample size of the sample 1
+$\hat{p_1}$ is the the proportion of of from sample 1
+$\hat{p_2}$ is the the proportion of of from sample 2
+
+**Relative risk ratio** was calculated to estimate the probability of encountering an opinion (traditional or non-traditional) for two levels of an explanatory variable. Relative risk was computed as follows:  
+$$RR = \frac{\frac{a}{a+b}}{\frac{c}{c+d}}$$  
+where:  
+$a$ is the probability of having opinion x, given condition 1  
+$b$ is the probability of having opinion y, given condition 1  
+$c$ is the probability of having opinion x, given condition 2  
+$d$ is the probability of having opinion y, given condition 2  
+
+***Multiple Two-Proportion Tests**
+Lastly, multiple difference in proportion tests were often conducted to compare the differences across several levels of a categorical explanatory variable. Since the chance of rare events increases with multiple tests, the likelihood of incorrectly rejecting the null hypothesis also increases.  To accompensate for that increase the **Bonferroni correction** was applied to the hypothesis tests, changing the significance level to $\alpha / m$, where $\alpha$ is the level of significance and $m$ is the number of hypothesis tests. The number of hypothesis tests $m = k(k-1)/2$, where $k$ is the number of groups being tested. The confidence interval was also adjusted, changing the overall confidence level from $1 - \alpha$ to $1 - \alpha/m$. The *Marascuilo* method of multiple comparisons was used to test all combinations of groups.
+
+
+##### Chi-square test of independence.
+To evaluate the association between opinion and the categorical explanatory variables, Pearson’s chi-square $X^2$ test of independence was employed to compute the probability of observing differences in proportions as extreme as the differences observed, assuming the null hypothesis that observed counts $O$, and expected counts $E$ are equal. The expected counts are computed as follows:
+
+$E_{(i,j)} = \frac{0T_i * 0T_j}{0T$ where:
+$E_{(i,j)}$ is a contingency table of expected counts with rows $i$ and columns $j$.
+$0T_i$ is the total for row $i$ from the observed contingency table.
+$0T_j$ is the total for column $j$ from the observed contingency table.
+$0T$ is total counts for the observed contingency table.
+
+Given the observed and expected counts, the $X^2$ test statistic is the normalized sum of squared deviations between observed and expected counts and is computed as follows: $$X^2 = \displaystyle\sum_{i=1}^{r} \displaystyle\sum_{j=1}^{c} \frac{(O_{i,j} - E_{i,j})^2}{E_{i,j}}$$ where:
+$X^2 = $ Pearson's cumulative test statistic.
+$O_{i,j} = $ the frequency or count from row $i$ and column $j$ of the observed contingency table $E_{i,j} = $ the frequency or count from row $i$ and column $j$ of the expected contingency table $r = $ the number of rows in the observed (and expected) contingency tables $c = $ the number of columns in the observed (and expected) contingency tables
+
+The chi-squared statistic was used to calculate a p-value by comparing the value of the statistic to a chi-squared distribution with $df$ degrees of freedom, where $df = (r-1) * (c-1)$. The selected level of confidence for all statistical tests was 95% ($\alpha = 0.05$). If the p-value was less than or equal to $alpha$, the null hypothesis was rejected. Otherwise, the null 
+
+##### Compute p-Value and Confidence Intervals
+As indicated above, both p-value and confidence interval approaches were used for two proportion hypothesis tests.  
+
+#### Interpret and report results
+Both hypothesis testing (p-values) and confidence intervals were used to interpret the difference in means and proportions.  For the hypothesis tests, the null hypotheses were evaluated as follows:  
+* p-value $\neq \alpha$, the null hypothesis is **rejected** in favor of the alternative hypothesis.  
+* p-value $= \alpha$, the null hypothesis is **not rejected**. 
+
+For the confidence interval approach, the null hypotheses were evaluated as follows:  
+* Confidence interval does not include zero, the null hypothesis is **rejected**. in favor of the alternative hypothesis.  
+* Confidence interval includes zero, the null hypothesis is **not rejected**.  
+
+## System and Environment  
+This analysis was implemented using the 64 bit version of the R Programming Language, version 3.4.1. [@TheRFoundation2015] within the R. Studio Version 1.1.330 [@RStudioTeam2016] development environment on a Windows x64-based laptop powered by an Intel Core i7-3610QM CPU @ 2.30GHz, 2301 MHz processor with 4 Cores, 8 Logical Processors, and 16.0 GB of installed memory, running the Microsoft Windows 10 Home operating system, version	10.0.14393 Build 14393. Report writing and generation packages included knitr [@Xie2013], and kfigr [@Koohafkan2015].  Data management functionality was provided by the dplyr [Wickham2015a], reshape2 [@Rcpp2016], xtable [@Dahl2016] and data table [@Dowle2016] packages. Graphics and data visualization were powered by the ggplot2 [@Wickham2016], gridExtra [@BaptisteAuguie2016], and the stargazer [@Hlavac2015] packages.  The inference [@VinhNguyen2017] statistcal package provided functionality for extracting inferential values from a fitted model.
+
+# Results
+## Exploratory Data Analysis
+The following descriptive and inferential statistics were computed for each study variable.  
+* **N**: The counts for each level of the categorical variable   
+* **Minimum N**: The minimum sample size required to ensure that the sample parameters were within a 5% margin of error (the confidence intervals) of the population parameters   
+* **Proportion**: For categorical variables, the proportional responses at each level of each categorical variable    
+* **Cumulative Proportions**: The cumulative proportions at each level of each categorical variable  
+* **Confidence Interval**: The 95% confidence interval for the population parameter   
+Furthermore, the conditions for inference were checked in order to characterize the degree to which the samples were representative of the population proportions.
+
+### Opinion
+As shown in `r kfigr::figr(label = "edaOpinionStats", prefix = TRUE, link = TRUE, type="Table")`, there were a total of `r sum(eda$opinion$stats$N)` observations, with `r eda$opinion$stats$N[1]`, and `r eda$opinion$stats$N[2]` traditional and non-traditional opinions, respectively. Of all respondents interviewed since 1972, `r round(eda$opinion$stats$Cumulative[1] * 100, 0)`% considered extra-marital conduct to be wrong or almost always wrong. 
+
+`r kfigr::figr(label = "edaOpinion", prefix = TRUE, link = TRUE, type="Table")`: Descriptive and inferential statistics for the opinion variable
+```{r edaOpinion, echo = F, message = FALSE, warning=FALSE}
+knitr::kable(eda$opinion$stats, align = c("l", rep("c", 7))) %>%  
+  kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = T, position = "center")
+```
+Since the independence and success/failure criteria were met, the confidence intervals for the true population proportions were reliably computed.
+
+### Region
+As shown in `r kfigr::figr(label = "edaRegion", prefix = TRUE, link = TRUE, type="Table")`, there were a total of `r sum(eda$region$stats$N)` observations. Over `r round(eda$region$stats$Cumulative[2] * 100, -1)`% of respondents resided in eastern and southeastern parts of the country, `r round(eda$region$stats$Proportion[3] * 100, 0)`% in the Midwest and the rest in the western states. 
+
+`r kfigr::figr(label = "edaRegion", prefix = TRUE, link = TRUE, type="Table")`: Descriptive and inferential statistics for the region variable
+```{r edaRegion, echo = F, message = FALSE, warning=FALSE}
+knitr::kable(eda$region$stats, align = c("l", rep("c", 7))) %>%  
+  kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = T, position = "center")
+```
+Since the independence and success/failure criteria were met, the confidence intervals for the true population proportions were reliably computed.
+
+### Class
+As shown in `r kfigr::figr(label = "edaClass", prefix = TRUE, link = TRUE, type="Table")`, there were a total of `r sum(eda$class$stats$N)` observations. Over `r round(eda$class$stats$Cumulative[2] * 100, -1)`% of respondents identified as lower class or working class. The middle class and upper class constituted `r round(eda$class$stats$Proportion[3] * 100, 0)`% and `r round(eda$class$stats$Proportion[4] * 100, 0)`%, respectively.
+
+`r kfigr::figr(label = "edaClass", prefix = TRUE, link = TRUE, type="Table")`: Descriptive and inferential statistics for the class variable
+```{r edaClass, echo = F, message = FALSE, warning=FALSE}
+knitr::kable(eda$class$stats, align = c("l", rep("c", 7))) %>%  
+  kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = T, position = "center")
+```
+Since the independence and success/failure criteria were met, the confidence intervals for the true population proportions were reliably computed.
+
+### Gender
+As shown in `r kfigr::figr(label = "edaGender", prefix = TRUE, link = TRUE, type="Table")`, there were a total of `r sum(eda$gender$stats$N)` observations. The majority of the responses (`r round(eda$gender$stats$Proportion[2] * 100, 0)`%) were from women.
+
+`r kfigr::figr(label = "edaGender", prefix = TRUE, link = TRUE, type="Table")`: Descriptive and inferential statistics for the gender variable
+```{r edaGender, echo = F, message = FALSE, warning=FALSE}
+knitr::kable(eda$gender$stats, align = c("l", rep("c", 7))) %>%  
+  kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = T, position = "center")
+```
+Since the independence and success/failure criteria were met, the confidence intervals for the true population proportions were reliably computed.
+
+### Age
+As shown in `r kfigr::figr(label = "edaAge", prefix = TRUE, link = TRUE, type="Table")`, there were a total of `r sum(eda$age$stats$N)` observations. Over `r round(eda$age$stats$Cumulative[2] * 100, -1)`% of the respondents were less than 45 years of age. The `r eda$age$stats$Level[2]` age group constituted a plurality of the responses (`r round(eda$age$stats$Proportion[2] * 100, 0)`%), followed by the `r eda$age$stats$Level[3]`, `r eda$age$stats$Level[4]`, and `r eda$age$stats$Level[1]` age groups comprising `r round(eda$age$stats$Proportion[3] * 100, 0)`%, `r round(eda$age$stats$Proportion[4] * 100, 0)`% and `r round(eda$age$stats$Proportion[1] * 100, 0)`%, respectively.
+
+`r kfigr::figr(label = "edaAge", prefix = TRUE, link = TRUE, type="Table")`: Descriptive and inferential statistics for the age variable
+```{r edaAge, echo = F, message = FALSE, warning=FALSE}
+knitr::kable(eda$age$stats, align = c("l", rep("c", 7))) %>%  
+  kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = T, position = "center")
+```
+Since the independence and success/failure criteria were met, the confidence intervals for the true population proportions were reliably computed.
+
+### Marital Status
+As shown in `r kfigr::figr(label = "edaMarital", prefix = TRUE, link = TRUE, type="Table")`, there were a total of `r sum(eda$marital$stats$N)` observations. Over `r round(eda$marital$stats$Proportion[1] * 100, -1)`% of the respondents were married at the time of the interview, `r round(eda$marital$stats$Proportion[5] * 100, 0)`% were never married, and `r round(sum(eda$marital$stats$Proportion[3], eda$marital$stats$Proportion[4]) * 100, 0)`% were divorced or separated.
+
+`r kfigr::figr(label = "edaMarital", prefix = TRUE, link = TRUE, type="Table")`: Descriptive and inferential statistics for the marital status variable
+```{r edaMarital, echo = F, messmarital = FALSE, warning=FALSE}
+knitr::kable(eda$marital$stats, align = c("l", rep("c", 7))) %>%  
+  kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = T, position = "center")
+```
+Since the independence and success/failure criteria were met, the confidence intervals for the true population proportions were reliably computed.
+
+
+
+
+
+
+
+
+
+
+
+
+## Research Question 1: Trends in Opinion by Gender
+
+```{r year, cache=TRUE}
+year <- multivariate(xms$multivariate$year, y = "Opinion", x = "Year", title = "Opinion by Year and Gender",
+success = "Non-Traditional", conf = 0.95, alpha = 0.05, alternative = "two.sided")
+```
+The aim here was to determine whether a linear trend in opinion over time exists by gender. The research question is restated as follows.   
+
+> Is there a linear trend in the proportion of non-traditional opinion over time, controlling for gender? 
+
+### The Data
+`r kfigr::figr(label = "yearBar1", prefix = TRUE, link = TRUE, type="Figure")` shows the proportion of non-traditional opinion by gender, for the years 1972 thru 2016.  
+```{r yearLine, echo = F, message = FALSE, warning=FALSE}
+year$plots$observed
+```
+`r kfigr::figr(label = "yearBar1", prefix = TRUE, link = TRUE, type="Figure")`: Observed frequencies and proportions 
+
+### Hypotheses
+To ascertain the degree to which a trend in the proportion of non-traditional opinion is extent, the following hypotheses were investigated for both males and females.     
+* **Null Hypothesis**: There is no linear trend in non-traditional opinion over time.   
+* **Alternative Hypothesis**: There is a linear trend in non-traditional opinion over time.   
+
+### Inference Conditions  
+The inference conditions were evaluated as follows:  
+1. **Independence:** All cases that contributed counts to the table were independent of all the other cases in the table.  
+2. **Success/Failure:** The minimum number of successes/failures was `r min(year$tables$freqTbl)`, exceeding the 10-count minimum threshold.
+3. **Sample Size:**  The expected frequency of non-traditional opinion per year, under the null hypothesis, was `round(mean(year$tables$freqTbl[2,,1], 0))` and `round(mean(year$tables$freqTbl[2,,2], 0))` for males and females respectively, exceeding the minimum five-count threshold. Furthermore, the sample was less than 10% of the U.S. adult population.  
+4. **Degrees of Freedom:** The chi-square test for trends has only one degree of freedom because the linear scoring means that when one expected value is given all the others are fixed.  
+
+That said, the conditions for parametric inference were met.
+
+### Statistical Method
+A chi-square trend test was contemplated for this hypothesis test. 
+
+### Test Results
+Chi-square tests for trend in proportions was conducted in order to challenge the null hypothesis that no linear trend exists in opinion over time. As indicated in `r kfigr::figr(label = "yearX2", prefix = TRUE, link = TRUE, type="Table")`, the result was significant in favor of the alternative hypothesis for both groups, $X^2$(1, N = `year$tests$x2t$N[1]`) = `r round(year$tests$x2t$X.Squared[1], 0)`, $p \lt .05$  and $X^2$(1, N = `year$tests$x2t$N[2]`) = `r round(year$tests$x2t$X.Squared[2], 0)`, $p \lt .05$ for the male and female groups respectively. As such the null hypothesis was rejected in favor of the alternative hypothesis that states with 95% confidence, that a linear relationship is extant.
+
+`r kfigr::figr(label = "yearX2", prefix = TRUE, link = TRUE, type="Table")`: Chi-square proportion trend test   
+```{r yearX2, echo = F, message = FALSE, warning=FALSE}
+knitr::kable(year$tests$x2t, digits = 2, align = c("l", rep("c", 8))) %>%  
+  kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = T, position = "center")
+```
+
+
+## Research Question 2: Opinion by Region
+```{r region, cache=TRUE}
+region <- bivariate(xms$bivariate$region, y = "Opinion", x = "Region", title = "Opinion by Region",
+success = "Non-Traditional", conf = 0.95, alpha = 0.05, alternative = "two.sided")
+```
+The aim here was to illuminate any relationship between opinion and geographic region via the following research question.  
+
+> Is there an association between opinion and geographic region?
+
+### The Data
+The observed frequencies and proportions of opinion vis-a-vis `r tolower(region$tests$x2$result$Explanatory)` for the years 2012 thru 2016 for the years 2012 thru 2016 are presented in the following barplots.
+
+```{r regionBar1, echo = F, message = FALSE, warning=FALSE}
+region$plots$observed$bar
+```
+`r kfigr::figr(label = "regionBar1", prefix = TRUE, link = TRUE, type="Figure")`: Observed frequencies and proportions 
+
+```{r regionBar2, echo = F, message = FALSE, warning=FALSE}
+region$plots$observed$norm
+```
+`r kfigr::figr(label = "regionBar2", prefix = TRUE, link = TRUE, type="Figure")`: Observed frequencies and proportions 
+
+Expected frequencies (`r kfigr::figr(label = "regionExpFreq", prefix = TRUE, link = TRUE, type="Table")`) and  proportions (`r kfigr::figr(label = "regionExpProp", prefix = TRUE, link = TRUE, type="Table")`) under the null hypothesis of independence between region and opinion were computed and are presented along side the observed counts (`r kfigr::figr(label = "regionObsFreq", prefix = TRUE, link = TRUE, type="Table")`) and proportions (`r kfigr::figr(label = "regionObsProp", prefix = TRUE, link = TRUE, type="Table")`) below.
+
+<div class = "col2-left">
+`r kfigr::figr(label = "regionObsFreq", prefix = TRUE, link = TRUE, type="Table")`: Observed frequencies of opinion by region
+```{r regionObsFreq, echo = F, message = FALSE, warning=FALSE}
+knitr::kable(round(region$tables$obsFreq, 0), align = c("l", rep("c", 5))) %>%  
+  kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = F, position = "center")
+```
+</div>
+<div class = "col2-right">
+`r kfigr::figr(label = "regionExpFreq", prefix = TRUE, link = TRUE, type="Table")`: Expected frequencies of opinion by region
+```{r regionExpFreq, echo = F, message = FALSE, warning=FALSE}
+knitr::kable(round(region$tables$expFreq, 0), align = c("l", rep("c", 5))) %>%  
+  kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = F, position = "center")
+```
+</div>
+
+<div class = "col2-left">
+`r kfigr::figr(label = "regionObsProp", prefix = TRUE, link = TRUE, type="Table")`: Observed proportions of opinion by region
+```{r regionObsProp, echo = F, message = FALSE, warning=FALSE}
+knitr::kable(round(region$tables$obsProp, 3), align = c("l", rep("c", 5))) %>%  
+  kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = F, position = "center")
+```
+</div>
+<div class = "col2-right">
+`r kfigr::figr(label = "regionExpProp", prefix = TRUE, link = TRUE, type="Table")`: Expected proportions of opinion by region
+```{r regionExpProp, echo = F, message = FALSE, warning=FALSE}
+knitr::kable(round(region$tables$expProp, 3), align = c("l", rep("c", 5))) %>%  
+  kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = F, position = "center")
+```
+</div>
+
+### Hypotheses
+Two sets of hypotheses were tested: hypothesis test for independence and hypothesis test for the difference in proportion of opinion across regions. 
+
+#### Independence
+With respect to the independence of opinion and region, the following hypotheses were investigated.   
+* **Null Hypothesis**: Opinion and geographic region are independent.  
+* **Alternative Hypothesis**: Opinion and geographic region are not independent.
+
+Using the observed and expected proportions from `r kfigr::figr(label = "regionObsProp", prefix = TRUE, link = TRUE, type="Table")` and `r kfigr::figr(label = "regionExpProp", prefix = TRUE, link = TRUE, type="Table")`, the hypothesis statements were formalized as follows.  
+$H_0$: $p_1 = p_{10}, p_2 = p_{20}, ...p_k = p_{k0}$      
+$H_a$: At least one observed proportion is different from the expected proportion  
+
+where:  
+$k$ is `r length(region$tests$x2$htest$observed)`, the number of response categories  
+$p_k$ is the *observed* proportion for the $k^{th}$ response category  
+$p_{k0}$ is the *expected* proportion for the $k^{th}$ response category  
+
+#### Difference in Proportions 
+Similarly, the hypothesis statement for the difference in opinion across regions is stated as follows.  
+* **Null Hypothesis**: There is no statistically significant difference in opinion across regions.  
+* **Alternative Hypothesis**: A statistically significant difference in the proportions of opinion exists with at least one region.  
+
+More formally:  
+$H_0$: $p_1 = p_2 = , ..., p_k$  
+$H_a$: $H_0$ is not true  
+
+where:  
+$k$ is `r length(region$tests$x2$htest$observed[1,])`, the number of regions  
+$p_k$ is the *observed* proportion for the $k^{th}$ region  
+
+
+### Inference Conditions  
+The inference conditions were evaluated as follows:  
+1. **Independence:** All cases that contributed counts to the table were independent of all the other cases in the table.  
+2. **Success/Failure:** As indicated in `r kfigr::figr(label = "regionExpFreq", prefix = TRUE, link = TRUE, type="Table")`, the observed number of successes (non-traditional opinion) and failures (traditional opinion) met the minimum 10 count threhold across all regions.  
+3. **Sample Size:**  As shown in `r kfigr::figr(label = "regionExpFreq", prefix = TRUE, link = TRUE, type="Table")`, all *expected* counts exceeded the minimum five-count threshold. Furthermore, the sample was less than 10% of the U.S. adult population.  
+4. **Degrees of Freedom:** The contingency tables were associated with a chi-square distribution with `r region$tests$x2$htest$parameter` degrees of freedom, exceeding the minimum threshold of two degrees of freedom for chi-square testing.
+
+As such, the conditions for parametric inference were met.
+
+### Statistical Method
+A chi-square test of independence was used to test for an association between opinion and all levels of the region variable at once. To evaluate the differences in proportion of opinion across regions, multiple difference in proportion tests were performed.
+
+### Test Results
+#### Chi-square Test of Independence
+`r region$tests$x2$stmt$type`
+
+```{r regionX2, echo = F, message = FALSE, warning=FALSE}
+region$plots$x2Plot
+```
+`r kfigr::figr(label = "regionX2", prefix = TRUE, link = TRUE, type="Figure")`: Chi-square test of independence plot  
+`r kfigr::figr(label = "regionTest", prefix = TRUE, link = TRUE, type="Table")`: Chi-square test of independence of opinion and `r tolower(region$tests$x2$result$Explanatory)`
+```{r regionTest, echo = F, message = FALSE, warning=FALSE}
+knitr::kable(region$tests$x2$result, digits = 2, align = c("l", rep("c", 7))) %>%  
+  kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = T, position = "center")
+```
+
+As shown in `r kfigr::figr(label = "regionX2", prefix = TRUE, link = TRUE, type="Figure")` and `r kfigr::figr(label = "regionTest", prefix = TRUE, link = TRUE, type="Table")`, `r region$tests$x2$stmt$detail`
+
+`r region$tests$x2$stmt$conclude`
+
+#### Difference in Proportions Test
+Pairwise difference in proportion tests were conducted with the Bonferroni correction. As indicated in `r kfigr::figr(label = "regionDPTest", prefix = TRUE, link = TRUE, type="Table")`, significant differences in the proportions of opinion were observed between the Northeast and the South and Midwest. A respondent in the Northeast was `r region$tests$dp$result[3,8]` times as likely to hold non-traditional opinions w.r.t. extra-marital conduct than a person in the Mountain region, `r region$tests$dp$result[2,8]` times as likely than a Midwestern resident, and `r region$tests$dp$result[1,8]` times as likely than a Southerner. Significant differences in the proportions of opinion were also observed between the Pacific region and the Midwest and the South.  Pacific respondents were `r round(1/.66, 2)` times as likely to hold non-traditional views than a respondent from the Midwest, and `r round(1/.63, 2)` times more likely than a Southern respondent to hold such views. 
+
+`r kfigr::figr(label = "regionDPTest", prefix = TRUE, link = TRUE, type="Table")`: Difference in proportion tests
+```{r regionDPTest, echo = F, message = FALSE, warning=FALSE}
+knitr::kable(region$tests$dp$result, digits = 3, align = c("l", rep("c", 7))) %>%  
+  kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = T, position = "center")
+```
+
+In summary, opinion was not independent of geographic region.  The Northeast and Pacific regions had significantly higher proportions of people with non-traditional views w.r.t. extra-marital conduct.
+
+
+## Research Question 3: Opinion by Class
+```{r class, cache=TRUE}
+class <- bivariate(xms$bivariate$class, y = "Opinion", x = "Class", title = "Opinion by Class",
+success = "Non-Traditional", conf = 0.95, alpha = 0.05, alternative = "two.sided")
+```
+
+The aim here was to illuminate any relationship between opinion and class via the following research question.  
+
+> Is there an association between opinion and socio-economic class?
+
+### The Data
+The observed frequencies and proportions of opinion vis-a-vis `r tolower(class$tests$x2$result$Explanatory)` for the years 2012 thru 2016 are presented in the following barplots.
+
+```{r classBar1, echo = F, message = FALSE, warning=FALSE}
+class$plots$observed$bar
+```
+`r kfigr::figr(label = "classBar1", prefix = TRUE, link = TRUE, type="Figure")`: Observed frequencies and proportions 
+
+```{r classBar2, echo = F, message = FALSE, warning=FALSE}
+class$plots$observed$norm
+```
+`r kfigr::figr(label = "classBar2", prefix = TRUE, link = TRUE, type="Figure")`: Observed frequencies and proportions 
+
+Expected frequencies (`r kfigr::figr(label = "classExpFreq", prefix = TRUE, link = TRUE, type="Table")`) and  proportions (`r kfigr::figr(label = "classExpProp", prefix = TRUE, link = TRUE, type="Table")`) under the null hypothesis of independence between class and opinion were computed and are presented along side the observed counts (`r kfigr::figr(label = "classObsFreq", prefix = TRUE, link = TRUE, type="Table")`) and proportions (`r kfigr::figr(label = "classObsProp", prefix = TRUE, link = TRUE, type="Table")`) below.
+
+<div class = "col2-left">
+`r kfigr::figr(label = "classObsFreq", prefix = TRUE, link = TRUE, type="Table")`: Observed frequencies of opinion by class
+```{r classObsFreq, echo = F, message = FALSE, warning=FALSE}
+knitr::kable(round(class$tables$obsFreq, 0), align = c("l", rep("c", 5))) %>%  
+  kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = F, position = "center")
+```
+</div>
+<div class = "col2-right">
+`r kfigr::figr(label = "classExpFreq", prefix = TRUE, link = TRUE, type="Table")`: Expected frequencies of opinion by class
+```{r classExpFreq, echo = F, message = FALSE, warning=FALSE}
+knitr::kable(round(class$tables$expFreq, 0), align = c("l", rep("c", 5))) %>%  
+  kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = F, position = "center")
+```
+</div>
+
+<div class = "col2-left">
+`r kfigr::figr(label = "classObsProp", prefix = TRUE, link = TRUE, type="Table")`: Observed proportions of opinion by class
+```{r classObsProp, echo = F, message = FALSE, warning=FALSE}
+knitr::kable(round(class$tables$obsProp, 3), align = c("l", rep("c", 5))) %>%  
+  kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = F, position = "center")
+```
+</div>
+<div class = "col2-right">
+`r kfigr::figr(label = "classExpProp", prefix = TRUE, link = TRUE, type="Table")`: Expected proportions of opinion by class
+```{r classExpProp, echo = F, message = FALSE, warning=FALSE}
+knitr::kable(round(class$tables$expProp, 3), align = c("l", rep("c", 5))) %>%  
+  kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = F, position = "center")
+```
+</div>
+
+### Hypotheses
+Two sets of hypotheses were tested: hypothesis test for independence and hypothesis test for the difference in proportion of opinion across classes. 
+
+#### Independence
+With respect to the independence of opinion and class, the following hypotheses were investigated.   
+* **Null Hypothesis**: Opinion and class are independent.  
+* **Alternative Hypothesis**: Opinion and class are not independent.
+
+Using the observed and expected proportions from `r kfigr::figr(label = "classObsProp", prefix = TRUE, link = TRUE, type="Table")` and `r kfigr::figr(label = "classExpProp", prefix = TRUE, link = TRUE, type="Table")`, the hypothesis statements were formalized as follows.  
+$H_0$: $p_1 = p_{10}, p_2 = p_{20}, ...p_k = p_{k0}$      
+$H_a$: At least one observed proportion is different from the expected proportion   
+
+where:  
+$k$ is `r length(class$tests$x2$htest$observed)`, the number of response categories  
+$p_k$ is the *observed* proportion for the $k^{th}$ response category  
+$p_{k0}$ is the *expected* proportion for the $k^{th}$ response category  
+
+#### Difference in Proportions 
+Similarly, the hypothesis statement for the difference in opinion across classes is stated as follows.  
+* **Null Hypothesis**: There is no statistically significant difference in opinion across classes.  
+* **Alternative Hypothesis**: A statistically significant difference in the proportions of opinion exists with at least one class.  
+
+More formally:  
+$H_0$: $p_1 = p_2 = , ..., p_k$  
+$H_a$: $H_0$ is not true  
+
+where:  
+$k$ is `r length(class$tests$x2$htest$observed[1,])`, the number of classes  
+$p_k$ is the *observed* proportion for the $k^{th}$ class  
+
+
+### Inference Conditions  
+The inference conditions were evaluated as follows:  
+1. **Independence:** All cases that contributed counts to the table were independent of all the other cases in the table.  
+2. **Success/Failure:** As indicated in `r kfigr::figr(label = "classExpFreq", prefix = TRUE, link = TRUE, type="Table")`, the observed number of successes (non-traditional opinion) and failures (traditional opinion) met the minimum 10 count threhold across all classes.  
+3. **Sample Size:**  As shown in `r kfigr::figr(label = "classExpFreq", prefix = TRUE, link = TRUE, type="Table")`, all *expected* counts exceeded the minimum five-count threshold. Furthermore, the sample was less than 10% of the U.S. adult population.  
+4. **Degrees of Freedom:** The contingency tables were associated with a chi-square distribution with `r class$tests$x2$htest$parameter` degrees of freedom, exceeding the minimum threshold of two degrees of freedom for chi-square testing.
+
+As such, the conditions for parametric inference were met.
+
+### Statistical Method
+A chi-square test of independence was used to test for an association between opinion and all levels of the class variable at once. To evaluate the differences in proportion of opinion across classes, multiple difference in proportion tests were performed.
+
+### Test Results
+#### Chi-square Test of Independence
+`r class$tests$x2$stmt$type`
+
+```{r classX2, echo = F, message = FALSE, warning=FALSE}
+class$plots$x2Plot
+```
+`r kfigr::figr(label = "classX2", prefix = TRUE, link = TRUE, type="Figure")`: Chi-square test of independence plot  
+`r kfigr::figr(label = "classTest", prefix = TRUE, link = TRUE, type="Table")`: Chi-square test of independence of opinion and `r tolower(class$tests$x2$result$Explanatory)`
+```{r classTest, echo = F, message = FALSE, warning=FALSE}
+knitr::kable(class$tests$x2$result, digits = 2, align = c("l", rep("c", 7))) %>%  
+  kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = T, position = "center")
+```
+
+As shown in `r kfigr::figr(label = "classX2", prefix = TRUE, link = TRUE, type="Figure")` and `r kfigr::figr(label = "classTest", prefix = TRUE, link = TRUE, type="Table")`, `r class$tests$x2$stmt$detail`
+
+`r class$tests$x2$stmt$conclude`
+
+#### Difference in Proportions Test
+To confirm, pairwise difference in proportion tests were conducted with the Bonferroni correction. As indicated in `r kfigr::figr(label = "classDPTest", prefix = TRUE, link = TRUE, type="Table")`, there were no significant differences in the proportions of opinion between the classes. 
+
+`r kfigr::figr(label = "classDPTest", prefix = TRUE, link = TRUE, type="Table")`: Difference in proportion tests
+```{r classDPTest, echo = F, message = FALSE, warning=FALSE}
+knitr::kable(class$tests$dp$result, digits = 3, align = c("l", rep("c", 7))) %>%  
+  kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = T, position = "center")
+```
+
+In summary, opinion w.r.t. extra-marital conduct was independent of class.
+
+## Research Question 4: Opinion by Gender
+```{r gender, cache=TRUE}
+gender <- bivariate(xms$bivariate$gender, y = "Opinion", x = "Gender", title = "Opinion by Gender",
+success = "Non-Traditional", conf = 0.95, alpha = 0.05, alternative = "two.sided")
+```
+The aim here was to illuminate any relationship between opinion and gender via the following research question.  
+
+> Is there an association between opinion and gender?
+
+### The Data
+The observed frequencies and proportions of opinion vis-a-vis `r tolower(gender$tests$x2$result$Explanatory)` for the years 2012 thru 2016 are presented in the following barplots.
+
+```{r genderBar1, echo = F, message = FALSE, warning=FALSE}
+gender$plots$observed$bar
+```
+`r kfigr::figr(label = "genderBar1", prefix = TRUE, link = TRUE, type="Figure")`: Observed frequencies and proportions 
+
+```{r genderBar2, echo = F, message = FALSE, warning=FALSE}
+gender$plots$observed$norm
+```
+`r kfigr::figr(label = "genderBar2", prefix = TRUE, link = TRUE, type="Figure")`: Observed frequencies and proportions 
+
+Expected frequencies (`r kfigr::figr(label = "genderExpFreq", prefix = TRUE, link = TRUE, type="Table")`) and  proportions (`r kfigr::figr(label = "genderExpProp", prefix = TRUE, link = TRUE, type="Table")`) under the null hypothesis of independence between gender and opinion were computed and are presented along side the observed counts (`r kfigr::figr(label = "genderObsFreq", prefix = TRUE, link = TRUE, type="Table")`) and proportions (`r kfigr::figr(label = "genderObsProp", prefix = TRUE, link = TRUE, type="Table")`) below.
+
+<div class = "col2-left">
+`r kfigr::figr(label = "genderObsFreq", prefix = TRUE, link = TRUE, type="Table")`: Observed frequencies of opinion by gender
+```{r genderObsFreq, echo = F, message = FALSE, warning=FALSE}
+knitr::kable(round(gender$tables$obsFreq, 0), align = c("l", rep("c", 5))) %>%  
+  kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = F, position = "center")
+```
+</div>
+<div class = "col2-right">
+`r kfigr::figr(label = "genderExpFreq", prefix = TRUE, link = TRUE, type="Table")`: Expected frequencies of opinion by gender
+```{r genderExpFreq, echo = F, message = FALSE, warning=FALSE}
+knitr::kable(round(gender$tables$expFreq, 0), align = c("l", rep("c", 5))) %>%  
+  kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = F, position = "center")
+```
+</div>
+
+<div class = "col2-left">
+`r kfigr::figr(label = "genderObsProp", prefix = TRUE, link = TRUE, type="Table")`: Observed proportions of opinion by gender
+```{r genderObsProp, echo = F, message = FALSE, warning=FALSE}
+knitr::kable(round(gender$tables$obsProp, 3), align = c("l", rep("c", 5))) %>%  
+  kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = F, position = "center")
+```
+</div>
+<div class = "col2-right">
+`r kfigr::figr(label = "genderExpProp", prefix = TRUE, link = TRUE, type="Table")`: Expected proportions of opinion by gender
+```{r genderExpProp, echo = F, message = FALSE, warning=FALSE}
+knitr::kable(round(gender$tables$expProp, 3), align = c("l", rep("c", 5))) %>%  
+  kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = F, position = "center")
+```
+</div>
+
+### Hypotheses
+With respect to the independence of opinion and gender, the following hypotheses were investigated.   
+* **Null Hypothesis**: Opinion and gender are independent.  
+* **Alternative Hypothesis**: Opinion and gender are not independent.
+
+Using the observed and expected proportions from `r kfigr::figr(label = "genderObsProp", prefix = TRUE, link = TRUE, type="Table")` and `r kfigr::figr(label = "genderExpProp", prefix = TRUE, link = TRUE, type="Table")`, the hypothesis statements were formalized as follows.  
+$H_0$: $p_1 = p_{10}, p_2 = p_{20}$      
+$H_a$: At least one observed proportion is different from the expected proportion   
+
+where:  
+$p_{1}$ is the *observed* proportion of opinion for men.   
+$p_{10}$ is the *expected* proportion of opinion for men.  
+$p_{2}$ is the *observed* proportion of opinion for women.  
+$p_{20}$ is the *expected* proportion of opinion for women.   
+
+### Inference Conditions  
+The inference conditions were evaluated as follows:  
+1. **Independence:** All cases that contributed counts to the table were independent of all the other cases in the table.  
+2. **Success/Failure:** As indicated in `r kfigr::figr(label = "genderExpFreq", prefix = TRUE, link = TRUE, type="Table")`, the observed number of successes (non-traditional opinion) and failures (traditional opinion) met the minimum 10 count threhold across all genders.  
+
+As such, the conditions for parametric inference were met.
+
+### Statistical Method
+To test the association between opinion and gender, the difference in proportion of opinion between genders was computed with p-values and 95% confidence intervals for the true differences in opinion.  
+
+### Test Results
+`r gender$tests$dp$statements[[1]]$type`
+
+```{r genderTestPlot, echo = F, message = FALSE, warning=FALSE}
+gender$tests$dp$plots[[1]]
+```
+`r kfigr::figr(label = "genderTestPlot", prefix = TRUE, link = TRUE, type="Figure")`: Z-test for difference in proportion of opinion by gender  
+`r kfigr::figr(label = "genderTest", prefix = TRUE, link = TRUE, type="Table")`: Z-test for difference in proportion of opinion by gender  
+```{r genderTest, echo = F, message = FALSE, warning=FALSE}
+knitr::kable(gender$tests$dp$result, digits = 3, align = c("l", rep("c", 7))) %>%  
+  kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = T, position = "center")
+```
+
+As indicated in `r kfigr::figr(label = "genderTestPlot", prefix = TRUE, link = TRUE, type="Figure")` and `r kfigr::figr(label = "genderTest", prefix = TRUE, link = TRUE, type="Table")`, `r gender$tests$dp$statements[[1]]$detail`
+
+`r gender$tests$dp$statements[[1]]$conclude`
+
+
+
+## Research Question 5: Opinion by Age
+```{r age, cache=TRUE}
+age <- bivariate(xms$bivariate$age, y = "Opinion", x = "Age", title = "Opinion by Age",
+success = "Non-Traditional", conf = 0.95, alpha = 0.05, alternative = "two.sided")
+```
+
+
+The aim here was to illuminate any relationship between opinion and age via the following research question.  
+
+> Is there an association between opinion and age?
+
+### The Data
+The observed frequencies and proportions of opinion vis-a-vis `r tolower(age$tests$x2$result$Explanatory)` for the years 2012 thru 2016 for the years 2012 thru 2016 are presented in the following barplots.
+
+```{r ageBar1, echo = F, message = FALSE, warning=FALSE}
+age$plots$observed$bar
+```
+`r kfigr::figr(label = "ageBar1", prefix = TRUE, link = TRUE, type="Figure")`: Observed frequencies and proportions 
+
+```{r ageBar2, echo = F, message = FALSE, warning=FALSE}
+age$plots$observed$norm
+```
+`r kfigr::figr(label = "ageBar2", prefix = TRUE, link = TRUE, type="Figure")`: Observed frequencies and proportions 
+
+Expected frequencies (`r kfigr::figr(label = "ageExpFreq", prefix = TRUE, link = TRUE, type="Table")`) and  proportions (`r kfigr::figr(label = "ageExpProp", prefix = TRUE, link = TRUE, type="Table")`) under the null hypothesis of independence between age and opinion were computed and are presented along side the observed counts (`r kfigr::figr(label = "ageObsFreq", prefix = TRUE, link = TRUE, type="Table")`) and proportions (`r kfigr::figr(label = "ageObsProp", prefix = TRUE, link = TRUE, type="Table")`) below.
+
+<div class = "col2-left">
+`r kfigr::figr(label = "ageObsFreq", prefix = TRUE, link = TRUE, type="Table")`: Observed frequencies of opinion by age
+```{r ageObsFreq, echo = F, message = FALSE, warning=FALSE}
+knitr::kable(round(age$tables$obsFreq, 0), align = c("l", rep("c", 5))) %>%  
+  kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = F, position = "center")
+```
+</div>
+<div class = "col2-right">
+`r kfigr::figr(label = "ageExpFreq", prefix = TRUE, link = TRUE, type="Table")`: Expected frequencies of opinion by age
+```{r ageExpFreq, echo = F, message = FALSE, warning=FALSE}
+knitr::kable(round(age$tables$expFreq, 0), align = c("l", rep("c", 5))) %>%  
+  kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = F, position = "center")
+```
+</div>
+
+<div class = "col2-left">
+`r kfigr::figr(label = "ageObsProp", prefix = TRUE, link = TRUE, type="Table")`: Observed proportions of opinion by age
+```{r ageObsProp, echo = F, message = FALSE, warning=FALSE}
+knitr::kable(round(age$tables$obsProp, 3), align = c("l", rep("c", 5))) %>%  
+  kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = F, position = "center")
+```
+</div>
+<div class = "col2-right">
+`r kfigr::figr(label = "ageExpProp", prefix = TRUE, link = TRUE, type="Table")`: Expected proportions of opinion by age
+```{r ageExpProp, echo = F, message = FALSE, warning=FALSE}
+knitr::kable(round(age$tables$expProp, 3), align = c("l", rep("c", 5))) %>%  
+  kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = F, position = "center")
+```
+</div>
+
+### Hypotheses
+Two sets of hypotheses were tested: hypothesis test for independence and hypothesis test for the difference in proportion of opinion across ages. 
+
+#### Independence
+With respect to the independence of opinion and age, the following hypotheses were investigated.   
+* **Null Hypothesis**: Opinion and age are independent.  
+* **Alternative Hypothesis**: Opinion and age are not independent.
+
+Using the observed and expected proportions from `r kfigr::figr(label = "ageObsProp", prefix = TRUE, link = TRUE, type="Table")` and `r kfigr::figr(label = "ageExpProp", prefix = TRUE, link = TRUE, type="Table")`, the hypothesis statements were formalized as follows.  
+$H_0$: $p_1 = p_{10}, p_2 = p_{20}, ...p_k = p_{k0}$      
+$H_a$: At least one observed proportion is different from the expected proportion  
+
+where:  
+$k$ is `r length(age$tests$x2$htest$observed)`, the number of response categories  
+$p_k$ is the *observed* proportion for the $k^{th}$ response category  
+$p_{k0}$ is the *expected* proportion for the $k^{th}$ response category  
+
+#### Difference in Proportions 
+Similarly, the hypothesis statement for the difference in opinion across ages is stated as follows.  
+* **Null Hypothesis**: There is no statistically significant difference in opinion across ages.  
+* **Alternative Hypothesis**: A statistically significant difference in the proportions of opinion exists with at least one age.  
+
+More formally:  
+$H_0$: $p_1 = p_2 = , ..., p_k$  
+$H_a$: $H_0$ is not true  
+
+where:  
+$k$ is `r length(age$tests$x2$htest$observed[1,])`, the number of ages  
+$p_k$ is the *observed* proportion for the $k^{th}$ age  
+
+
+### Inference Conditions  
+The inference conditions were evaluated as follows:  
+1. **Independence:** All cases that contributed counts to the table were independent of all the other cases in the table.  
+2. **Success/Failure:** As indicated in `r kfigr::figr(label = "ageExpFreq", prefix = TRUE, link = TRUE, type="Table")`, the observed number of successes (non-traditional opinion) and failures (traditional opinion) met the minimum 10 count threhold across all ages.  
+3. **Sample Size:**  As shown in `r kfigr::figr(label = "ageExpFreq", prefix = TRUE, link = TRUE, type="Table")`, all *expected* counts exceeded the minimum five-count threshold. Furthermore, the sample was less than 10% of the U.S. adult population.  
+4. **Degrees of Freedom:** The contingency tables were associated with a chi-square distribution with `r age$tests$x2$htest$parameter` degrees of freedom, exceeding the minimum threshold of two degrees of freedom for chi-square testing.
+
+As such, the conditions for parametric inference were met.
+
+### Statistical Method
+A chi-square test of independence was used to test for an association between opinion and all levels of the age variable at once. To evaluate the differences in proportion of opinion across ages, multiple difference in proportion tests were performed.
+
+### Test Results
+#### Chi-square Test of Independence
+`r age$tests$x2$stmt$type`
+
+```{r ageX2, echo = F, message = FALSE, warning=FALSE}
+age$plots$x2Plot
+```
+`r kfigr::figr(label = "ageX2", prefix = TRUE, link = TRUE, type="Figure")`: Chi-square test of independence plot  
+`r kfigr::figr(label = "ageTest", prefix = TRUE, link = TRUE, type="Table")`: Chi-square test of independence of opinion and `r tolower(age$tests$x2$result$Explanatory)`
+```{r ageTest, echo = F, message = FALSE, warning=FALSE}
+knitr::kable(age$tests$x2$result, digits = 2, align = c("l", rep("c", 7))) %>%  
+  kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = T, position = "center")
+```
+
+As shown in `r kfigr::figr(label = "ageX2", prefix = TRUE, link = TRUE, type="Figure")` and `r kfigr::figr(label = "ageTest", prefix = TRUE, link = TRUE, type="Table")`, `r age$tests$x2$stmt$detail`
+
+`r age$tests$x2$stmt$conclude`
+
+#### Difference in Proportions Test
+Pairwise difference in proportion tests were conducted with the Bonferroni correction. 
+
+`r kfigr::figr(label = "ageDPTest", prefix = TRUE, link = TRUE, type="Table")`: Difference in proportion tests
+```{r ageDPTest, echo = F, message = FALSE, warning=FALSE}
+knitr::kable(age$tests$dp$result, digits = 3, align = c("l", rep("c", 7))) %>%  
+  kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = T, position = "center")
+```
+
+Using the Bonferroni correction to correct for the increased risk of rare events over multiple tests resulted in non-significant differences in the proportions across age group; however, relative risk was used as a proxy to understand the relative differences of opinion across age groups. Accordingly, the 25-44 age group was decidely more likely than other age groups to hold non-traditional opinions w.r.t. extra-marital conduct.
+
+That said, the results of the chi-square test were considered more reliable and therefore, the conclusion was that opinion was not independent of age.  
+
+## Research Question 5: Opinion by Marital Status
+```{r marital, cache=TRUE}
+marital <- bivariate(xms$bivariate$marital, y = "Opinion", x = "Marital Status", title = "Opinion by Marital Status",
+success = "Non-Traditional", conf = 0.95, alpha = 0.05, alternative = "two.sided")
+```
+
+The aim here was to illuminate any relationship between opinion and marital status status via the following research question.  
+
+> Is there an association between opinion and marital status status?
+
+### The Data
+The observed frequencies and proportions of opinion vis-a-vis `r tolower(marital$tests$x2$result$Explanatory)` for the years 2012 thru 2016 for the years 2012 thru 2016 are presented in the following barplots.
+
+```{r maritalBar1, echo = F, message = FALSE, warning=FALSE}
+marital$plots$observed$bar
+```
+`r kfigr::figr(label = "maritalBar1", prefix = TRUE, link = TRUE, type="Figure")`: Observed frequencies and proportions 
+
+```{r maritalBar2, echo = F, message = FALSE, warning=FALSE}
+marital$plots$observed$norm
+```
+`r kfigr::figr(label = "maritalBar2", prefix = TRUE, link = TRUE, type="Figure")`: Observed frequencies and proportions 
+
+Expected frequencies (`r kfigr::figr(label = "maritalExpFreq", prefix = TRUE, link = TRUE, type="Table")`) and  proportions (`r kfigr::figr(label = "maritalExpProp", prefix = TRUE, link = TRUE, type="Table")`) under the null hypothesis of independence between marital status and opinion were computed and are presented along side the observed counts (`r kfigr::figr(label = "maritalObsFreq", prefix = TRUE, link = TRUE, type="Table")`) and proportions (`r kfigr::figr(label = "maritalObsProp", prefix = TRUE, link = TRUE, type="Table")`) below.
+
+<div class = "col2-left">
+`r kfigr::figr(label = "maritalObsFreq", prefix = TRUE, link = TRUE, type="Table")`: Observed frequencies of opinion by marital status
+```{r maritalObsFreq, echo = F, message = FALSE, warning=FALSE}
+knitr::kable(round(marital$tables$obsFreq, 0), align = c("l", rep("c", 5))) %>%  
+  kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = F, position = "center")
+```
+</div>
+<div class = "col2-right">
+`r kfigr::figr(label = "maritalExpFreq", prefix = TRUE, link = TRUE, type="Table")`: Expected frequencies of opinion by marital status
+```{r maritalExpFreq, echo = F, message = FALSE, warning=FALSE}
+knitr::kable(round(marital$tables$expFreq, 0), align = c("l", rep("c", 5))) %>%  
+  kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = F, position = "center")
+```
+</div>
+
+<div class = "col2-left">
+`r kfigr::figr(label = "maritalObsProp", prefix = TRUE, link = TRUE, type="Table")`: Observed proportions of opinion by marital status
+```{r maritalObsProp, echo = F, message = FALSE, warning=FALSE}
+knitr::kable(round(marital$tables$obsProp, 3), align = c("l", rep("c", 5))) %>%  
+  kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = F, position = "center")
+```
+</div>
+<div class = "col2-right">
+`r kfigr::figr(label = "maritalExpProp", prefix = TRUE, link = TRUE, type="Table")`: Expected proportions of opinion by marital status
+```{r maritalExpProp, echo = F, message = FALSE, warning=FALSE}
+knitr::kable(round(marital$tables$expProp, 3), align = c("l", rep("c", 5))) %>%  
+  kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = F, position = "center")
+```
+</div>
+
+### Hypotheses
+Two sets of hypotheses were tested: hypothesis test for independence and hypothesis test for the difference in proportion of opinion by marital status. 
+
+#### Independence
+With respect to the independence of opinion and marital status, the following hypotheses were investigated.   
+* **Null Hypothesis**: Opinion and marital status status are independent.  
+* **Alternative Hypothesis**: Opinion and marital status status are not independent.
+
+Using the observed and expected proportions from `r kfigr::figr(label = "maritalObsProp", prefix = TRUE, link = TRUE, type="Table")` and `r kfigr::figr(label = "maritalExpProp", prefix = TRUE, link = TRUE, type="Table")`, the hypothesis statements were formalized as follows.  
+$H_0$: $p_1 = p_{10}, p_2 = p_{20}, ...p_k = p_{k0}$      
+$H_a$: At least one observed proportion is different from the expected proportion  
+
+where:  
+$k$ is `r length(marital$tests$x2$htest$observed)`, the number of response categories  
+$p_k$ is the *observed* proportion for the $k^{th}$ response category  
+$p_{k0}$ is the *expected* proportion for the $k^{th}$ response category  
+
+#### Difference in Proportions 
+Similarly, the hypothesis statement for the difference in opinion by marital status is stated as follows.  
+* **Null Hypothesis**: There is no statistically significant difference in opinion by marital status.  
+* **Alternative Hypothesis**: A statistically significant difference in the proportions of opinion exists with at least one group.  
+
+More formally:  
+$H_0$: $p_1 = p_2 = , ..., p_k$  
+$H_a$: $H_0$ is not true  
+
+where:  
+$k$ is `r length(marital$tests$x2$htest$observed[1,])`, the number of marital status'  
+$p_k$ is the *observed* proportion for the $k^{th}$ marital status  
+
+
+### Inference Conditions  
+The inference conditions were evaluated as follows:  
+1. **Independence:** All cases that contributed counts to the table were independent of all the other cases in the table.  
+2. **Success/Failure:** As indicated in `r kfigr::figr(label = "maritalExpFreq", prefix = TRUE, link = TRUE, type="Table")`, the observed number of successes (non-traditional opinion) and failures (traditional opinion) met the minimum 10 count threhold across all marital status'.  
+3. **Sample Size:**  As shown in `r kfigr::figr(label = "maritalExpFreq", prefix = TRUE, link = TRUE, type="Table")`, all *expected* counts exceeded the minimum five-count threshold. Furthermore, the sample was less than 10% of the U.S. adult population.  
+4. **Degrees of Freedom:** The contingency tables were associated with a chi-square distribution with `r marital$tests$x2$htest$parameter` degrees of freedom, exceeding the minimum threshold of two degrees of freedom for chi-square testing.
+
+As such, the conditions for parametric inference were met.
+
+### Statistical Method
+A chi-square test of independence was used to test for an association between opinion and all levels of the marital status variable at once. To evaluate the differences in proportion of opinion by marital status, multiple difference in proportion tests were performed.
+
+### Test Results
+#### Chi-square Test of Independence
+`r marital$tests$x2$stmt$type`
+
+```{r maritalX2, echo = F, message = FALSE, warning=FALSE}
+marital$plots$x2Plot
+```
+`r kfigr::figr(label = "maritalX2", prefix = TRUE, link = TRUE, type="Figure")`: Chi-square test of independence plot  
+`r kfigr::figr(label = "maritalTest", prefix = TRUE, link = TRUE, type="Table")`: Chi-square test of independence of opinion and `r tolower(marital$tests$x2$result$Explanatory)`
+```{r maritalTest, echo = F, message = FALSE, warning=FALSE}
+knitr::kable(marital$tests$x2$result, digits = 2, align = c("l", rep("c", 7))) %>%  
+  kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = T, position = "center")
+```
+
+As shown in `r kfigr::figr(label = "maritalX2", prefix = TRUE, link = TRUE, type="Figure")` and `r kfigr::figr(label = "maritalTest", prefix = TRUE, link = TRUE, type="Table")`, `r marital$tests$x2$stmt$detail`
+
+`r marital$tests$x2$stmt$conclude`
+
+#### Difference in Proportions Test
+Pairwise difference in proportion tests were conducted with the Bonferroni correction. Significant differences in the proportions of opinion were observed between married and widowed respondents and everyone else. These groups were decidely more likely than the others to hold traditional views w.r.t. extra-marital conduct.
+
+`r kfigr::figr(label = "maritalDPTest", prefix = TRUE, link = TRUE, type="Table")`: Difference in proportion tests
+```{r maritalDPTest, echo = F, message = FALSE, warning=FALSE}
+knitr::kable(marital$tests$dp$result, digits = 3, align = c("l", rep("c", 7))) %>%  
+  kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = T, position = "center")
+```
+
+In summary, opinion was not independent of marital status.  
