@@ -16,6 +16,12 @@ knitr::knit_hooks$set(inline = function(x) {
   prettyNum(x, big.mark=",")
 })
 
+## ----loadData, cache=TRUE-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+load(file = "../data/GSS.Rdata")
+
+## ----preprocess, cache=TRUE---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+xms <- preprocess(GSS)
+
 ## ----eda, cache=FALSE---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 eda <- univariate(xms$univariate)
 
@@ -28,6 +34,9 @@ knitr::kable(rq) %>%
 vars <- openxlsx::read.xlsx("../data/gssvars.xlsx", sheet = 4)
 knitr::kable(vars) %>%  
   kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = T, position = "center")
+
+## ----install, echo = T, message = FALSE, warning=FALSE, eval=FALSE------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#  devtools::install_github("DataScienceSalon/xms")
 
 ## ----edaOpinion, echo = F, message = FALSE, warning=FALSE---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 knitr::kable(eda$opinion$stats, align = c("l", rep("c", 7))) %>%  
@@ -53,6 +62,16 @@ knitr::kable(eda$age$stats, align = c("l", rep("c", 7))) %>%
 knitr::kable(eda$marital$stats, align = c("l", rep("c", 7))) %>%  
   kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = T, position = "center")
 
+## ----year, cache=TRUE---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+pre  <- xms$multivariate$year %>% filter(Year < 2012)
+post <- xms$multivariate$year %>% filter(Year > 2011)
+
+pre2012 <- multivariate(pre, y = "Proportion of Opinion", x = "Year", title = "Non-Traditional Opinion (1973-2012)", 
+success = "Non-Traditional", conf = 0.95, alpha = 0.05, alternative = "two.sided")
+
+post2012 <- multivariate(post, y = "Proportion of Opinion", x = "Year", title = "Non-Traditional Opinion (2012-2016)",
+success = "Non-Traditional", conf = 0.95, alpha = 0.05, alternative = "two.sided")
+
 ## ----yearLine, echo = F, message = FALSE, warning=FALSE-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 pre2012$plots$observed
 
@@ -63,12 +82,16 @@ post2012$plots$observed
 analysis <- rbind(pre2012$analysis, post2012$analysis)
 knitr::kable(analysis, digits = 2, align = c("l", rep("c", 12))) %>%  
   kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = T, position = "center") %>%
-  kableExtra::add_header_above(c(" " = 4, "Frequencies" = 4, "Proportions" = 4, " " = 1))
+  kableExtra::add_header_above(c(" " = 1," " = 1, " " = 1, " " = 1, "Frequencies" = 4, "Proportions" = 4, " " = 1))
 
 ## ----yearX2, echo = F, message = FALSE, warning=FALSE-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 years <- rbind(pre2012$tests$x2t, post2012$tests$x2t)
 knitr::kable(years, digits = 2, align = c("l", rep("c", 8))) %>%  
   kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = T, position = "center")
+
+## ----region, cache=TRUE-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+region <- bivariate(xms$bivariate$region, y = "Opinion", x = "Region", title = "Opinion by Region",
+success = "Non-Traditional", conf = 0.95, alpha = 0.05, alternative = "two.sided")
 
 ## ----regionBar1, echo = F, message = FALSE, warning=FALSE---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 region$plots$observed$bar
@@ -106,7 +129,11 @@ knitr::kable(region$tests$dp$result, digits = 3, align = c("l", rep("c", 7))) %>
 ## ----regionAnalysis, echo = F, message = FALSE, warning=FALSE-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 analysis <- region$analysis %>% select(Region, Opinion, PctProp, CumPct, RelativePct) %>% filter(Opinion == "Non-Traditional") 
 knitr::kable(analysis, digits = 0, align = c("l", rep("c", 4))) %>%  
-  kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = F, position = "center")
+  kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = T, position = "center")
+
+## ----class, cache=TRUE--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+class <- bivariate(xms$bivariate$class, y = "Opinion", x = "Class", title = "Opinion by Class",
+success = "Non-Traditional", conf = 0.95, alpha = 0.05, alternative = "two.sided")
 
 ## ----classBar1, echo = F, message = FALSE, warning=FALSE----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 class$plots$observed$bar
@@ -140,6 +167,10 @@ knitr::kable(class$tests$x2$result, digits = 2, align = c("l", rep("c", 7))) %>%
 ## ----classDPTest, echo = F, message = FALSE, warning=FALSE--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 knitr::kable(class$tests$dp$result, digits = 3, align = c("l", rep("c", 7))) %>%  
   kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = T, position = "center")
+
+## ----gender, cache=TRUE-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+gender <- bivariate(xms$bivariate$gender, y = "Opinion", x = "Gender", title = "Opinion by Gender",
+success = "Non-Traditional", conf = 0.95, alpha = 0.05, alternative = "two.sided")
 
 ## ----genderBar1, echo = F, message = FALSE, warning=FALSE---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 gender$plots$observed$bar
@@ -247,10 +278,303 @@ knitr::kable(marital$tests$dp$result, digits = 3, align = c("l", rep("c", 7))) %
 ## ----maritalAnalysis, echo = F, message = FALSE, warning=FALSE----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 analysis <- marital$analysis %>% select(.[[1]], Opinion, PctProp, CumPct, RelativePct) %>% filter(Opinion == "Non-Traditional") 
 knitr::kable(analysis, digits = 0, align = c("l", rep("c", 4))) %>%  
-  kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = F, position = "center")
+  kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = T, position = "center")
 
 ## ----summary, echo = F, message = FALSE, warning=FALSE------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 results <- openxlsx::read.xlsx("../data/gssvars.xlsx", sheet = 5)
 knitr::kable(results) %>%  
   kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = T, position = "center")
+
+## ----a-install, echo = T, message = FALSE, warning=FALSE, eval=FALSE----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#  devtools::install_github("DataScienceSalon/xms")
+
+## ----a-eda, code=readLines('../R/diffTest.R')[21:180], echo=TRUE, eval=FALSE--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#  diffTest <- function(data, alternative = "two.sided", success,
+#                       conf = 0.95, alpha = 0.05) {
+#  
+#    freqDf <- as.data.frame(addmargins(table(data), 1))
+#    groups <- as.character(unique(freqDf %>% .[[2]]))
+#    nGroups <- length(groups)
+#  
+#    # Bonferroni Correction for Multiple Groups
+#    numTests <- nGroups * (nGroups - 1) / 2
+#    alpha <- alpha / numTests
+#  
+#    # Compute critical value
+#    area <- ifelse(alternative == "two.sided", alpha/2, alpha)
+#    zAlpha <- qnorm(area, lower.tail = FALSE)
+#  
+#    # Initialize variables
+#    Populations = Contrast = Value = `Z-Score` = c()
+#    `p-value` = `95% CI` = Significant = `Relative Risk` = c()
+#    statements <- list()
+#    plots <- list()
+#    k <- 1
+#  
+#    for (i in 1:(nGroups-1)) {
+#      for (j in (i+1):nGroups) {
+#  
+#        #-----------------------------------------------------------------------#
+#        #                            Perform Tests                              #
+#        #-----------------------------------------------------------------------#
+#        # Compute prop.test
+#        successes <- c(as.numeric(freqDf %>% filter(.[[1]] == success & .[[2]] == groups[i]) %>%
+#                         select(Freq)),
+#                       as.numeric(freqDf %>% filter(.[[1]] == success & .[[2]] == groups[j]) %>%
+#                         select(Freq)))
+#        totals <- c(as.numeric(freqDf %>% filter(.[[1]] == "Sum"  & .[[2]] == groups[i]) %>%
+#                                 select(Freq)),
+#                    as.numeric(freqDf %>% filter(.[[1]] == "Sum" & .[[2]] == groups[j]) %>%
+#                                 select(Freq)))
+#        t <- prop.test(successes, totals, correct = FALSE,
+#                       alternative = alternative, conf.level = (1 - (alpha / numTests))) # Bonferroni Correction
+#  
+#        # Compute z-score
+#        pPooled <- sum(successes) / sum(totals)
+#        sePooled <- sqrt((pPooled * (1-pPooled) / totals[1]) + (pPooled * (1-pPooled) / totals[2]))
+#        zScore <- ((successes[1] / totals[1]) - (successes[2] / totals[2])) / sePooled
+#        pValue <- 2 * pnorm(-abs(zScore))
+#  
+#        # Render decision
+#        if ((alternative == "two.sided" & pValue < (alpha / 2))
+#            | (alternative != "two.sided" & pValue < alpha)) {
+#          decision <- "Reject"
+#        } else {
+#          decision <- "Fail to Reject"
+#        }
+#  
+#        # Compute Relative Risk Ratio
+#        r1 <-  successes[1] / totals[1]
+#        r2 <- successes[2] / totals[2]
+#        rr <- r1 / r2
+#  
+#        #-----------------------------------------------------------------------#
+#        #                            Format Results                             #
+#        #-----------------------------------------------------------------------#
+#        Populations[k] <- paste0(groups[i], " - ", groups[j])
+#        Contrast[k] <- paste0("p",i, " - p",j)
+#        Value[k] <- as.numeric(round(t$estimate[1] - t$estimate[2], 3))
+#        `Z-Score`[k] <- round(zScore, 3)
+#        `p-value`[k] <- round(t$p.value, 3)
+#        `95% CI`[k] <- paste0("[ ", round(t$conf.int[1], 3), ", ", round(t$conf.int[2], 3), " ]")
+#        Significant[k] <- ifelse(decision == "Reject", "Yes", "No")
+#        `Relative Risk`[k] <- round(rr, 2)
+#  
+#        #-----------------------------------------------------------------------#
+#        #                             Plot Results                              #
+#        #-----------------------------------------------------------------------#
+#        plots[[k]] <- plotDiffTest(x = groups[1], y = groups[2], zAlpha, zScore)
+#  
+#        #-----------------------------------------------------------------------#
+#        #                          Render Statement                             #
+#        #-----------------------------------------------------------------------#
+#        statements[[k]] <- list()
+#        alt <- ifelse(alternative == "two.sided", "not equal to",
+#                      ifelse(alternative == "less", "less than","greater than"))
+#        type1 <- ifelse(decision == "Reject", "less than", "greater than")
+#  
+#        ciNote <- ifelse(decision  == "Reject",
+#                         paste0("Further, the confidence interval for the difference in ",
+#                                "proportions does not include zero, the null ",
+#                                "hypothesis value, suggesting that a zero difference ",
+#                                "in ", tolower(success), " opinion between the groups ",
+#                                "is outside the ", alpha * 100, "% margin of error.  "),
+#                         paste0("Further, the confidence interval for the difference in ",
+#                                "proportions includes zero, suggesting that a zero ",
+#                                "difference in the proportion of ", tolower(success),
+#                                " opinion is within the ", alpha * 100, "% margin of ",
+#                                "error.  "))
+#  
+#        statements[[k]]$type <- paste0("This was a ", (conf * 100), "% confidence, two-proportion z-test ",
+#                            "of the null hypothesis that the true population proportion of ",
+#                            tolower(success), " opinion for ", groups[i], " and ",
+#                            groups[j], " populations are equal.  ")
+#  
+#        if (decision == "Reject") {
+#          statements[[k]]$conclude <- paste0("The results of the p-value and confidence interval ",
+#                                  "approaches agree. The null hypothesis was ",
+#                                  "rejected with a ", conf * 100, "% confidence, in favor ",
+#                                  "of the alternative hypothesis that the true ",
+#                                  "population proportion of ", tolower(success),
+#                                  " opinion within the ", groups[i], " population is ",
+#                                  alt, " the true proportion of ", tolower(success),
+#                                  " opinion in the ", groups[j], " population. ")
+#        } else {
+#          statements[[k]]$conclude <- paste0("The results of the p-value and confidence ",
+#                                             "interval approaches agree. The null ",
+#                                             "hypothesis that the true ",
+#                                             "population proportions of ",
+#                                             tolower(success),
+#                                             " opinion within the ",
+#                                             groups[i], " and ",
+#                                             groups[j], " populations are equal,
+#                                             was not rejected. ")
+#        }
+#  
+#        statements[[k]]$detail <- paste0("the observed difference in the proportion of ",
+#                              tolower(success), " opinion between the ",
+#                              groups[i], " and ", groups[j], " respondents was ",
+#                              as.numeric(round(t$estimate[1] - t$estimate[2], 3)),
+#                              ", raising a z-score of ", round(zScore, 3),
+#                              ", as indicated by the red dot on the plot. ",
+#                              "The probability of encountering a difference in ",
+#                              "proportions this extreme (p-value) was approximately ",
+#                              round(t$p.value, 3), ", which is ", type1, " the ",
+#                              "probability of incorrectly rejecting the null ",
+#                              "hypothesis.  ", ciNote)
+#  
+#        k <- k + 1
+#      }
+#    }
+#  
+#    #---------------------------------------------------------------------------#
+#    #                     Compile Results and Return                            #
+#    #---------------------------------------------------------------------------#
+#  
+#    df <- as.data.frame(cbind(Populations, Contrast, Value, `Z-Score`,
+#                              `p-value`, `95% CI`, Significant,
+#                              `Relative Risk`), stringsAsFactors = FALSE)
+#  
+#    res <- list(
+#      sig = list(
+#        conf = conf,
+#        alpha = alpha,
+#        zAlpha = zAlpha
+#      ),
+#      result = df,
+#      statements = statements,
+#      plots = plots
+#    )
+#  
+#    return(res)
+#  }
+#  
+
+## ----a-eda, code=readLines('../R/x2Test.R')[20:79], echo=TRUE, eval=FALSE-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#  x2Test <- function(freqTbl, y, x, conf = 0.95, alpha = 0.05) {
+#  
+#    x2 <- chisq.test(freqTbl)
+#  
+#    # Extract Chisq Data
+#    criticalVal <- qchisq(alpha, x2$parameter, lower.tail = F)
+#  
+#    # Create Table
+#    table <- data.frame(Response = y,
+#                        Explanatory = x,
+#                        `d.f.` = x2$parameter,
+#                        N = sum(freqTbl),
+#                        `Critical Value` = qchisq(alpha, x2$parameter, lower.tail = F),
+#                        `X-Squared` = x2$statistic,
+#                        `p-value` = ifelse(x2$p.value < 0.05, "p < 0.05", round(x2$p.value, 3)),
+#                        Decision = ifelse(x2$p.value >= alpha,"Fail to Reject", "Reject"),
+#                        row.names = NULL)
+#  
+#    # Format Statements
+#    stmt <- list()
+#    stmt$type <- paste0("A chi-square test of independence was performed to ",
+#                        "challenge the null hypothesis that no association exists ",
+#                        "between ", tolower(y), ", and the explanatory ",
+#                        "variable, ", tolower(x), ". ")
+#  
+#    if (x2$p.value < (alpha)) {
+#      stmt$conclude <- paste0("Therefore, the null hypothesis was rejected in ",
+#                              "favor of the alternative hypothesis which states ",
+#                              "with ", conf * 100, "% confidence, that the response ",
+#                              "variable, ", tolower(y), ", and explanatory ",
+#                              "variable, ", tolower(x), ", are not independent. ")
+#    } else {
+#      stmt$conclude <- paste0("Therefore, the null hypothesis that no association ",
+#                              "exists between response variable ", tolower(y),
+#                              " and explanatory variable ", tolower(x),
+#                              " was not rejected. ")
+#    }
+#  
+#    stmt$detail <- paste0("the critical value indicated by the shaded region ",
+#                          "was ", round(criticalVal, 2), ". The sum of ",
+#                          "the squared differences (indicated by the red dot) ",
+#                          "between observed counts and the expected counts was ",
+#                          round(x2$statistic,0), ". With ",
+#                          x2$parameter, " degrees of freedom and N = ", table$N,
+#                          ", the probability of encountering a difference ",
+#                          "this extreme (p-value) was approximately ",
+#                          round(x2$p.value, 3), ". ")
+#  
+#  
+#    test <- list(
+#      sig = list(
+#        conf = conf,
+#        alpha = alpha
+#      ),
+#      htest = x2,
+#      result = table,
+#      stmt = stmt
+#    )
+#    return(test)
+#  }
+
+## ----a-eda, code=readLines('../R/x2TrendTest.R')[19:82], echo=TRUE, eval=FALSE------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#  x2TrendTest <- function(freqTbl, x, y, z, conf = 0.95, alpha = 0.05) {
+#  
+#    propTbl <- prop.table(freqTbl, 2)
+#    freqTbl <- addmargins(freqTbl, 1)
+#    x2 <- prop.trend.test(x = as.numeric(freqTbl[2,]),
+#                          n = as.numeric(freqTbl[3,]))
+#  
+#  
+#    # Compute Critical Value
+#    criticalVal <- qchisq(alpha, x2$parameter, lower.tail = F)
+#  
+#    # Create Table
+#    table <- data.frame(Period = paste0(as.numeric(dimnames(freqTbl)$Year[1]), "-",
+#                                        as.numeric(dimnames(freqTbl)$Year[length(freqTbl[2,])])),
+#                        Response = y,
+#                        Explanatory = x,
+#                        Gender = z,
+#                        `d.f.` = x2$parameter,
+#                        N = sum(freqTbl[3,]),
+#                        `Critical Value` = criticalVal,
+#                        `X-Squared` = x2$statistic,
+#                        `p-value` = ifelse(x2$p.value < 0.05, "p < 0.05", round(x2$p.value, 3)),
+#                        Decision = ifelse(x2$p.value >= alpha,"Fail to Reject", "Reject"),
+#                        row.names = NULL)
+#  
+#    # Format Statements
+#    stmt <- list()
+#    stmt$type <- paste0("A chi-square test for trend in proportions was ",
+#                        "conductedin order to ",
+#                        "challenge the null hypothesis that no linear trend exists ",
+#                        "in opinion over time. ")
+#  
+#    if (x2$p.value < (alpha)) {
+#      stmt$conclude <- paste0("Therefore, the null hypothesis was rejected in ",
+#                              "favor of the alternative hypothesis which states ",
+#                              "with ", conf * 100, "% confidence, that opinion ",
+#                              "changes linearly over time.  ")
+#    } else {
+#      stmt$conclude <- paste0("Therefore, the null hypothesis that no linear ",
+#                              "relationship between opinion and time exists, ",
+#                              "was not rejected. ")
+#    }
+#  
+#    stmt$detail <- paste0("the critical value indicated by the shaded region ",
+#                          "was ", round(criticalVal, 2), ". The sum of ",
+#                          "the squared differences (indicated by the red dot) ",
+#                          "between observed counts and the expected counts was ",
+#                          round(x2$statistic,0), ". With ",
+#                          x2$parameter, " degrees of freedom and N = ", table$N,
+#                          ", the probability of encountering a difference ",
+#                          "this extreme (p-value) was approximately ",
+#                          round(x2$p.value, 3), ". ")
+#  
+#  
+#    test <- list(
+#      sig = list(
+#        conf = conf,
+#        alpha = alpha
+#      ),
+#      result = table,
+#      stmt = stmt
+#    )
+#    return(test)
+#  }
 

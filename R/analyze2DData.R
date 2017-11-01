@@ -1,15 +1,21 @@
 #==============================================================================#
-#                                  analyze2DData                                  #
+#                                  analyze2DData                               #
 #==============================================================================#
 #' analyze2DData
 #'
-#' \code{analyze2DData} Render frequency and proportion data
+#' \code{analyze2DData} Summarizes frequency and proportion data
+#' for 2 x k contingency tables in terms of:
+#' \itemize{
+#'  \item Percent of the overall proportion of opinion
+#'  \item Cumulative percent of overaell proportion of opinion
+#'  \item Relative percent: percent of proportion relative to the mean percentage
+#' }
 #'
 #' @author John James, \email{jjames@@datasciencesalon.org}
 #'
 #' @param x2 Results from chi-square test of association
 #'
-#' @return List containing observed and expected frequenty data for plotting.
+#' @return Data frame containing frequency
 #'
 #' @family xmar functions
 #' @export
@@ -35,8 +41,6 @@ analyze2DData <- function(x2) {
                         arrange(Opinion, desc(PctProp)) %>%
                         mutate(CumPct = cumsum(PctProp),
                                RelativePct = PctProp / mean(PctProp) * 100))
-
-
 
   return(df)
 }

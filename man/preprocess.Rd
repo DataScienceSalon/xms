@@ -7,7 +7,8 @@
 preprocess(GSS)
 }
 \description{
-\code{preprocess} Creates additional variables required for analysis.
+\code{preprocess} Preprocesses the data set and creates data sets used
+for analysis.
 }
 \seealso{
 Other xmar functions: \code{\link{analyze2DData}},
