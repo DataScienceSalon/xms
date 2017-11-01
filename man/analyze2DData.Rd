@@ -10,10 +10,16 @@ analyze2DData(x2)
 \item{x2}{Results from chi-square test of association}
 }
 \value{
-List containing observed and expected frequenty data for plotting.
+Data frame containing frequency
 }
 \description{
-\code{analyze2DData} Render frequency and proportion data
+\code{analyze2DData} Summarizes frequency and proportion data
+for 2 x k contingency tables in terms of:
+\itemize{
+ \item Percent of the overall proportion of opinion
+ \item Cumulative percent of overaell proportion of opinion
+ \item Relative percent: percent of proportion relative to the mean percentage
+}
 }
 \seealso{
 Other xmar functions: \code{\link{analyzeTrend}},
