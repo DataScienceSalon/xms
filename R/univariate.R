@@ -94,9 +94,6 @@ univariate <- function(xmar) {
   # Conduct Analysis
   opinion <- analyze(opinion, "Opinion")
   clas <- analyze(clas, "Class")
-  attend <- analyze(attend, "Religious Service Attendance")
-  religion <- analyze(religion ,"Religion")
-  party <- analyze(party, "Political Party")
   age <- analyze(age, "Age")
   gender <- analyze(gender, "Gender")
   region <- analyze(region, "Region")
@@ -106,9 +103,6 @@ univariate <- function(xmar) {
   analysis <- list(
     opinion = opinion,
     class = clas,
-    attend = attend,
-    religion = religion,
-    party = party,
     age = age,
     gender = gender,
     region = region,

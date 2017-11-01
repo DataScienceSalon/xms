@@ -103,12 +103,6 @@ The GSS variables were extracted for years 1973 thru 2016 and the following vari
 * 18-24   * 25-44  
 * 45-64   * 65+  
 
-**Political Party**: Four factor variable:   
-* Democrat: Strong democrat and not strong democrat  
-* Independent: Independent, near democrat, independent, and independent near republican  
-* Republican: Strong republican and not strong republican  
-* Other  
-
 **Region**: Five factor variable:   
 * Northeast: Comprised of responses from the New England and Mid Atlantic regions   
 * MidWest: Comprised of responses from the East Central and West Central regions  
@@ -120,18 +114,14 @@ Responses with "NAs", "Don't Know", and other non-response values for the GSS va
 
 ## Data Analysis
 
-### Overview
-Univariate analyses (exploratory data analysis) provided the descriptive and inferential statistics on a univariate basis.  The multivariate analyses examined, tested, and reported the strength and direction of associations between variables. 
+This study involved univariate, bivariate and multivariate statistics.
 
-#### Univariate Analysis
-For quantitative variables, central tendency (mean, mode and median) and dispersion: range, variance, maximum, minimum, quartiles (including the interquartile range), and standard deviation were computed. Bar charts and histograms were rendered to graphically depict their distributions. For categorical variables, frequency distribution (contingency) tables and bar charts were rendered. For inferential statistics, hypothesis testing aproaches revealed the degree to which each variable was representative of the population
+Univariate analyses (exploratory data analysis) provided the descriptive and inferential statistics on a single-variable basis. Since all variables were categorical, frequencies and proportions were revealed using frequency distribution (contingency) tables and bar charts.  Confidence intervals for the true population proportion for each value of each categorical variable were also computed.
 
-#### Multivariate Analysis
-Provided conditions for inference were met, hypothesis based chi-square tests of independence were conducted to evaluate the association between opinion and one or more of the explanatory variables. To characterize the difference in non-traditional opinion between two independent samples, both the **hypothesis test** and **confidence interval approaches** were used. 
+The bivariate analyses examined, tested, and reported the existence, strength and direction of associations between opinion and a single explanatory variable. **Hypothesis driven** chi-square tests of independence were used to determine whether an **association was extant**. For this analysis, confidence intervals didn’t apply. To evaluate the **strength and direction** of an association, **hypothesis tests** for the difference in two proportions were conducted pairwise for each level of the explanatory variable, to determine the probability of encountering a difference as extreme as that observed, assuming a null hypothesis of zero difference. If the probability was less than $\alpha = 0.05$, the tolerable probability of a type I error, the null hypothesis was rejected in favor of the alternative hypothesis of a difference in proportions.  In addition, **confidence intervals** for the difference in the proportions were computed for the difference in the proportions, given the null hypothesis.  If the interval didn’t include zero difference, the null hypothesis of equal proportions was rejected. Note: the degree to which both approaches agree was addressed when both comparing two caterical levels, such as gender and opinion. For multiple two-proportion tests, some comparisons yielded significant differences, others did not. Comparing multiple p-values against a single chi-square statistic would not be appropriate in this case.  
 
-For the **hypothesis test** approach, z-scores are computed, and the null hypothesis that the true difference in non-traditional opinion between the two populations is equal, is rejected in favor of an alternative hypothesis that the true population proportions of non-traditional opinion are different (greater than or less than), if the probability of encountering such a z-score (p-value) is less than the probability $\alpha$ of a type I error. 
+Similarly a hypothesis driven chi-square trend test, also known as the Cochran-Armitage test for trend, was conducted to determine whether a trend was extant. Based upon a chi-square statistic, a p-value is computed and an inference is made as was described above. This has one degree of freedom because the linear scoring of the proportions by year means that when one expected value is given all the others are fixed. This statistical technique is explained in further detail below.
 
-For the **confidence interval** approach, 95% confidence intervals for the true population difference in the proportion of non-traditional opinion, given the point estimate (observed difference) for the true difference, are computed. If the confidence interval for the true difference in the proportion of non-traditional opinion does not include zero (the null hypothesis), the null hypothesis that the true proportion of non-traditional opinion in the two populations are the same, is rejected. The analysis will confirm the degree to which both approaches agree. 
 
 ### Data Analysis Methodology
 The following hypothesis driven approach was used for the univariate and multivariate analyses.  
@@ -147,13 +137,14 @@ The following hypothesis driven approach was used for the univariate and multiva
 For the *univariate* analyses, data tables and bar plots illuminate the frequencies and proportions of responses for each level of the categorical variable. Histograms graphically depict the distribution of quantitative variables in the sample.  For the *multivariate* analysis, data tables and bar plots show the proportion of opinion at each level of the explanatory categorical variable. The effect of a quantitative variable, such as the number of hours watching television, on opinion is graphically depicted using boxplots.   
 
 #### State Hypotheses
-Three types of hypotheses statements were used in this study.   
-1. Single Proportion  
-2. Difference of Two Proportions  
+Four  types of hypotheses statements were used in this study.   
+1. Single proportion  
+2. Difference of two proportions  
 3. Association 
+4. Trend in proportions
 
 **Single Proportion**  
-This type of hypothesis statement, used in the univariate analysis of categorical variables, was used to determine the extent to which a sample proportion is equal to the true population proportion and takes the following form.  
+This type of hypothesis statement, used in the univariate analysis of categorical variables, was used to estimate the true poulation parameter and as follows:  
 $H_0$ $p - \hat{p} = 0$   
 $H_a$ $p - \hat{p} \neq 0$    
 where:   
@@ -161,7 +152,7 @@ $p$ is the true population proportion
 $\hat{p}$ is the observed sample proportion  
 
 **Differences in two Proportions**   
-This type of hypothesis statement was used in the multivarate analysis to determine the true difference in the proportion of non-traditional opinion for two populations and takes the following form.  
+This type of hypothesis statement was used in the multivarate analysis to determine the true difference in the proportion of non-traditional opinion for two populations and took the following form.  
 $H_0$ $p_1 - p_2 = 0$   
 $H_a$ $p_1 - p_2 \neq 0$    Two sided, or  
 $H_a$ $p_1 < p_2$           One sided, or  
@@ -171,13 +162,18 @@ $p_1$ is the proportion of non-tradition opinion in the first population of inte
 $p_2$ is the proportion of non-tradition opinion in the second population of interest  
 
 **Association**   
-This type of hypothesis statement was used to ascertain the association between opinion and categorical explanatory variables and takes the following form.  
+This type of hypothesis statement was used to ascertain the association between opinion and categorical explanatory variables and took the following form.  
 $H_0$ $p_1 = p_{10}, p_2 = p_{20}, ...p_k = p_{k0}$     
 $H_a$ At least one proportion is different from the others.  
 where:  
 $k$   is the number of response categories  
 $p_k$ is the *observed* proportion for the $k^{th}$ response category  
 $p_{k0}$ is the *expected* proportion for the $k^{th}$ response category
+
+**Trend in Proportions**
+This was used to determine wither a trend in opinion was extent over time, controlling for gender and took the following form:  
+$H_0$ A trend exists in the proportion of opinion over time, controlling for gender.  
+$H_a$ A trend does not exists in the proportion of opinion over time, controlling for gender.  
 
 #### Inference Conditions
 Statistical inferences were derived from parametric statistics and the central limit theoreom, whereby the former assumes that sample data comes from a population distribution with a fixed set of parameters, and the later assumes that the sampling distribution for the parameter of interest is normal. The parameters for inferences for proportions are $N(\mu, \sigma^2)$, where $\mu$ is the population proportion parameter $\hat{p}$ and $\sigma^2$ is the variation of of the population proportion parameter. The degree to which the distribution can be considered normal depends upon the type of inference being undertaken.
@@ -192,11 +188,11 @@ These conditions applied to the multivariate analyses of the difference in the p
 1. **Within Sample Independence:** Each sample meets the independence criteria, specifically, samples were obtained from a random sampling process and consists of less than 10% of hte adult U.S. population.  
 2. **Cross-Sample Independence:** Both samples are independent from each other. 
 
-**Inference for Association (Chi-square goodness-of-fit)**   
+**Inference for Association and Trend (Chi-square independence & Cochran-Armitage test)**   
 These conditions applied to the multivariate analyses of the association between opinion and the various explanatory variables. The following three conditions were confirmed for all association tests.  
 1. **Independence:** Each case that contributes a count to the table must be independent of all the other cases in the table.  
 2. **Sample Size:**  Each particular scenario (i.e. cell count) must have at least 5 *expected* cases.   
-3. **Degrees of Freedom:** The contingency table must be associated with a chi-square distribution with two or more degrees of freedom.  
+3. **Degrees of Freedom:** The contingency table must be associated with a chi-square distribution with two or more degrees of freedom. This requirement is relaxed for trend tests. 
 
 #### Minimum Sample Size
 Minimum required sample sizes were computed during the univariate analysis to confirm that the sample parameters were within a 5% margin of error of the true population parameters. The minimum sample size for estimating the population proportion was computed as follows:  
@@ -209,9 +205,10 @@ $z^*$ is the critical value on the z-distribution for the designated margin of e
 
 #### Statistical Methods 
 Four types of statistical methods were used to evaluate the hypotheses statements:   
-1. Single proportion z-tests for estimating the true population parameter.
-2. Two-proportion z-tests for the difference in proportions with confidence intervals.
-3. Chi-square test for independence 
+1. Single proportion z-tests for estimating the true population parameter   
+2. Two-proportion z-tests for the difference in proportions with confidence intervals  
+3. Chi-square test for independence   
+4. Cochran-Armitage test for trends in proportions    
 
 ##### Single Proportion z-test
 Single proportion z-tests were conducted to used to construct confidence intervals for a population proportion, and is computed as follows:
@@ -231,22 +228,22 @@ $\hat{p}$ is the the sample proportion of interest
 To evaluate hypotheses w.r.t. the difference in two proportions, z-tests were conducted using the *pooled* proportions for the standard error calculation. Pooled proportions, $\hat{p}$, were calculated as follows:
 
 $$\hat{p} = \frac{\hat{p_1}n_1 + \hat{p_2}n_2}{n_1 + n_2}$$  
-where:  
-$n1$ is the sample size of the sample 1
-$n2$ is the sample size of the sample 1
-$p1$ is the the proportion of of from sample 1
-$p2$ is the the proportion of of from sample 2
+where:    
+$n1$ is the sample size of the sample 1  
+$n2$ is the sample size of the sample 1  
+$p1$ is the the proportion of of from sample 1  
+$p2$ is the the proportion of of from sample 2    
 
 Given the pooled proportion, the *pooled* standard error, $SE_{pooled}$, for the difference in proportions was calculated as follows:  
 $$SE_{pooled} = \sqrt{\frac{\hat{p}(1-\hat{p})}{n_1} + \frac{\hat{p}(1-\hat{p})}{n_2}}$$  
-where:  
-$\hat{p}$ is the pooled proortion calculated above  
-$n1$ is the sample size of the sample 1
-$n2$ is the sample size of the sample 2
+where:   
+$\hat{p}$ is the pooled proortion calculated above    
+$n1$ is the sample size of the sample 1  
+$n2$ is the sample size of the sample 2  
 
 Lastly, the z-statistic under the null hypothesis of equal proportions was calculated as follows:  
 $$Z = \frac{(\hat{p_1} - \hat{p_2}) - 0}{SE_{pooled}}$$ 
-The z-statistic was used to calculate a p-value by comparing the value of the statistic for each random variable $X$ to a *standard normal* distribution ($X \sim N(\mu = 0, \sigma^2 = 1)$. The selected level of confidence for all statistical tests was 95% ($\alpha = 0.05$). If the p-value was less than or equal to $alpha$, the null hypothesis was rejected.  Otherwise, the null hypothesis was not rejected. The p-value for a guassian distribution can be readily obtained by most statistical software packages and is computed as follows:  
+The z-statistic was used to calculate a p-value by comparing the value of the statistic for each random variable $X$ to a *standard normal* distribution ($X \sim N(\mu = 0, \sigma^2 = 1)$. The selected level of confidence for all statistical tests was 95% ($\alpha = 0.05$). If the p-value was less than or equal to $\alpha$, the null hypothesis was rejected.  Otherwise, the null hypothesis was not rejected. The p-value for a guassian distribution was obtained using the R statistical software package and is computed as follows:  
 $$p(x;\mu, \sigma^2) = \frac{1}{\sqrt{2\pi} * \sigma} * exp(-\frac{(x-\mu)^2}{2\sigma^2})$$
 where:  
 $x$ = random variable  
@@ -255,18 +252,18 @@ $\sigma$ = standard deviation of a random variable $x$
 
 Z-tests were conducted to compute the confidence interval for the difference in two proportions. The 95% confidence intervals for the differences in two proportions were computed as follows:  
 $$C = (\hat{p_1} - \hat{p_2}) \pm Z^* * SE$$
-where:  
-$\hat{p_1}$ is the the proportion of interest from sample 1
-$\hat{p_2}$ is the the proportion of interest from sample 1
+where:    
+$\hat{p_1}$ is the the proportion of interest from sample 1  
+$\hat{p_2}$ is the the proportion of interest from sample 1  
 $Z^*$ is the $z_{\alpha/2}$ critical value for a two sided z-distribution at a 95% confidence level $\approx 1.96$  
 
 The standard error $SE$ is computed as follows:  
 $$SE= \sqrt{\frac{\hat{p_1}(1-\hat{p_1})}{n_1} + \frac{\hat{p_2}(1-\hat{p_2})}{n_2}}$$  
 where:  
-$n1$ is the sample size of the sample 1
-$n2$ is the sample size of the sample 1
-$\hat{p_1}$ is the the proportion of of from sample 1
-$\hat{p_2}$ is the the proportion of of from sample 2
+$n1$ is the sample size of the sample 1  
+$n2$ is the sample size of the sample 1  
+$\hat{p_1}$ is the the proportion of of from sample 1    
+$\hat{p_2}$ is the the proportion of of from sample 2     
 
 **Relative risk ratio** was calculated to estimate the probability of encountering an opinion (traditional or non-traditional) for two levels of an explanatory variable. Relative risk was computed as follows:  
 $$RR = \frac{\frac{a}{a+b}}{\frac{c}{c+d}}$$  
@@ -276,29 +273,44 @@ $b$ is the probability of having opinion y, given condition 1
 $c$ is the probability of having opinion x, given condition 2  
 $d$ is the probability of having opinion y, given condition 2  
 
-***Multiple Two-Proportion Tests**
+***Multiple Two-Proportion Tests**    
 Lastly, multiple difference in proportion tests were often conducted to compare the differences across several levels of a categorical explanatory variable. Since the chance of rare events increases with multiple tests, the likelihood of incorrectly rejecting the null hypothesis also increases.  To accompensate for that increase the **Bonferroni correction** was applied to the hypothesis tests, changing the significance level to $\alpha / m$, where $\alpha$ is the level of significance and $m$ is the number of hypothesis tests. The number of hypothesis tests $m = k(k-1)/2$, where $k$ is the number of groups being tested. The confidence interval was also adjusted, changing the overall confidence level from $1 - \alpha$ to $1 - \alpha/m$. The *Marascuilo* method of multiple comparisons was used to test all combinations of groups.
 
 ##### Chi-square test of independence.
 To evaluate the association between opinion and the categorical explanatory variables, Pearson’s chi-square $X^2$ test of independence was employed to compute the probability of observing differences in proportions as extreme as the differences observed, assuming the null hypothesis that observed counts $O$, and expected counts $E$ are equal. The expected counts are computed as follows:
 
 $E_{(i,j)} = \frac{0T_i * 0T_j}{0T}$ where:  
-$E_{(i,j)}$ is a contingency table of expected counts with rows $i$ and columns $j$.
-$0T_i$ is the total for row $i$ from the observed contingency table.
-$0T_j$ is the total for column $j$ from the observed contingency table.
-$0T$ is total counts for the observed contingency table.
+$E_{(i,j)}$ is a contingency table of expected counts with rows $i$ and columns $j$.  
+$0T_i$ is the total for row $i$ from the observed contingency table.   
+$0T_j$ is the total for column $j$ from the observed contingency table.   
+$0T$ is total counts for the observed contingency table.  
 
-Given the observed and expected counts, the $X^2$ test statistic is the normalized sum of squared deviations between observed and expected counts and is computed as follows: $$X^2 = \displaystyle\sum_{i=1}^{r} \displaystyle\sum_{j=1}^{c} \frac{(O_{i,j} - E_{i,j})^2}{E_{i,j}}$$ where:
-$X^2 = $ Pearson's cumulative test statistic.
-$O_{i,j} = $ the frequency or count from row $i$ and column $j$ of the observed contingency table $E_{i,j} = $ the frequency or count from row $i$ and column $j$ of the expected contingency table $r = $ the number of rows in the observed (and expected) contingency tables $c = $ the number of columns in the observed (and expected) contingency tables
+Given the observed and expected counts, the $X^2$ test statistic is the normalized sum of squared deviations between observed and expected counts and is computed as follows: $$X^2 = \displaystyle\sum_{i=1}^{r} \displaystyle\sum_{j=1}^{c} \frac{(O_{i,j} - E_{i,j})^2}{E_{i,j}}$$ where:    
 
-The chi-squared statistic was used to calculate a p-value by comparing the value of the statistic to a chi-squared distribution with $df$ degrees of freedom, where $df = (r-1) * (c-1)$. The selected level of confidence for all statistical tests was 95% ($\alpha = 0.05$). If the p-value was less than or equal to $alpha$, the null hypothesis was rejected. Otherwise, the null 
+$X^2 = $ Pearson's cumulative test statistic.    
+$O_{i,j} = $ the frequency or count from row $i$ and column $j$ of the observed contingency table    
+$E_{i,j} = $ the frequency or count from row $i$ and column $j$ of the expected contingency table      
+$r = $ the number of rows in the observed (and expected) contingency tables   
+$c = $ the number of columns in the observed (and expected) contingency tables  
+
+The chi-squared statistic was used to calculate a p-value by comparing the value of the statistic to a chi-squared distribution with $df$ degrees of freedom, where $df = (r-1) * (c-1)$. The selected level of confidence for all statistical tests was 95% ($\alpha = 0.05$). If the p-value was less than or equal to $\alpha$, the null hypothesis was rejected. Otherwise, the null 
+
+##### Cochran-Armitage Test
+The Cochran-Armitage test for trends in proportions is a more powerful version of the chi-square test for independence that takes into account a linear scoring for an ordinal categorical variable. Assume there are $k$ independent binomial variates $y_i$, with sample sizes $n_i$, at ordinal explanatory categorical levels $x_i$, for $i = 1, 2, ..., k$ where $x_1 <  x_2 < ... < x_k$, let:
+
+$N = \displaystyle\sum_{i=1}^{k} n_i$   
+$\hat{p} = \frac{1}{N}\displaystyle\sum_{i=1}^{k} y_i$  
+$\hat{q} = 1 - \hat{p}$  
+$\bar{x} = \frac{1}{N}\displaystyle\sum_{i=1}^{k} n_ix_1$  
+
+Th uncorrected test statistic is:  
+$$z = \frac{\displaystyle\sum_{i=1}^{k} y_i(x_i-\bar{x})}{\sqrt{}\hat{q}\hat{p}[\displaystyle\sum_{i=1}^{k} n_i(x_i-\bar{x})^2]}$$
 
 ##### Compute p-Value and Confidence Intervals
 As indicated above, both p-value and confidence interval approaches were used for two proportion hypothesis tests.  
 
 #### Interpret and report results
-Both hypothesis testing (p-values) and confidence intervals were used to interpret the difference in means and proportions.  For the hypothesis tests, the null hypotheses were evaluated as follows:  
+Both hypothesis testing (p-values) and confidence intervals were used to interpret the difference proportions.  For the hypothesis tests, the null hypotheses were evaluated as follows:  
 * p-value $\neq \alpha$, the null hypothesis is **rejected** in favor of the alternative hypothesis.  
 * p-value $= \alpha$, the null hypothesis is **not rejected**. 
 
@@ -410,18 +422,19 @@ post2012$plots$observed
 `r kfigr::figr(label = "recentLine", prefix = TRUE, link = TRUE, type="Figure")`: Proportion of non-traditional opinion 2012-2016
 
 
-`r kfigr::figr(label = "trendSummary", prefix = TRUE, link = TRUE, type="Table")`: Summary statistics for proportion of non-traditional opinion
+`r kfigr::figr(label = "trendSummary", prefix = TRUE, link = TRUE, type="Table")`: Summary statistics for frequency proportion of non-traditional opinion
 ```{r trendSummary, echo = F, message = FALSE, warning=FALSE}
 analysis <- rbind(pre2012$analysis, post2012$analysis)
-knitr::kable(analysis, digits = 2, align = c("l", rep("c", 8))) %>%  
-  kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = T, position = "center")
+knitr::kable(analysis, digits = 2, align = c("l", rep("c", 12))) %>%  
+  kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = T, position = "center") %>%
+  kableExtra::add_header_above(c(" " = 1," " = 1, " " = 1, " " = 1, "Frequencies" = 4, "Proportions" = 4, " " = 1))
 ```
 
 The data reveal two trends; the longer trend from 1973-2011, and the more recent trend from 2012-2016.
 
-For the former  `r kfigr::figr(label = "trendSummary", prefix = TRUE, link = TRUE, type="Table")` reveals that the proportion of non-traditional opinion dropped by `r -round(analysis$PctChange[1], 0)`% from a high of `r round(analysis$Max[1], 2)` in `r round(analysis$YearHigh[1], 0)` to a low of `r round(analysis$Min[1], 2)` in `r round(analysis$YearLow[1], 0)`. The most significant decline of `r -round(analysis$PctChange[2], 0)`%  was among men over this time period from a high of `r round(analysis$Max[2], 2)` in `r round(analysis$YearHigh[2], 0)` to a low of `r round(analysis$Min[2], 2)` in `r round(analysis$YearLow[2], 0)`. The proportion of non-traditional opinion among women fell by  `r -round(analysis$PctChange[3], 2)`%
+For the former  `r kfigr::figr(label = "trendSummary", prefix = TRUE, link = TRUE, type="Table")` reveals that the proportion of non-traditional opinion dropped by `r -round(analysis$PctChange[1], 0)`% from a high of `r round(analysis$pMax[1], 2)` in `r as.character(analysis$YearHigh[1])` to a low of `r round(analysis$pMin[1], 2)` in `r as.character(analysis$YearLow[1])`. The most significant decline of `r -round(analysis$PctChange[2], 0)`%  was among men over this time period from a high of `r round(analysis$pMax[2], 2)` in `r as.character(analysis$YearHigh[2])` to a low of `r round(analysis$pMin[2], 2)` in `r as.character(analysis$YearLow[2])`. The proportion of non-traditional opinion among women fell by  `r -round(analysis$PctChange[3], 2)`%
 
-The trend appeared to reverse over the period from 2012-2016. Overall, the proportion of non-traditional opinion increased by `r round(analysis$PctChange[4], 0)`%. The most significant increase was among women where the proportion of opinion grew  `r round(analysis$PctChange[6], 0)`%  from `r round(analysis$Min[6], 0)` in `r round(analysis$YearLow[6], 0)` to `r round(analysis$Max[6], 0)` in `r round(analysis$YearHigh[6], 0)`.
+The trend appeared to reverse over the period from 2012-2016. Overall, the proportion of non-traditional opinion increased by `r round(analysis$PctChange[4], 0)`%. The most significant increase was among women where the proportion of opinion grew  `r round(analysis$PctChange[6], 0)`%  from `r round(analysis$pMin[6], 0)` in `r as.character(analysis$YearLow[6])` to `r round(analysis$pMax[6], 0)` in `r as.character(analysis$YearHigh[6])`.
 
 ### Hypotheses
 For the 1973-2011 period, the proportion of non-traditional opinion w.r.t. extra-marital conduct appeared to exhibit a negative trend. From 2012-2016, an upward trend seemed extant. As such, the following hypotheses were tested to ascertain the degree to which a trend in the proportion of non-traditional opinion was extent, for both the 1973-2011 and 2012-2016 periods. The hypotheses were tested for males and females separately.   
@@ -431,14 +444,14 @@ For the 1973-2011 period, the proportion of non-traditional opinion w.r.t. extra
 ### Inference Conditions  
 The inference conditions were evaluated as follows:  
 1. **Independence:** All cases that contributed counts to the table were independent of all the other cases in the table.  
-2. **Success/Failure:** The minimum number of successes/failures was `r min(pre2012$tables$freqTbl)`, exceeding the 10-count minimum threshold.
+2. **Success/Failure:** The minimum number of successes/failures was `r min(pre2012$tables$freqTbl)`, exceeding the 10-count minimum threshold, see `r kfigr::figr(label = "trendSummary", prefix = TRUE, link = TRUE, type="Table")`.
 3. **Sample Size:**  The expected frequency of non-traditional opinion per year, under the null hypothesis, was `r round(mean(pre2012$tables$freqTbl[2,,1], 0))` and `r round(mean(pre2012$tables$freqTbl[2,,2], 0))` for males and females respectively, exceeding the minimum five-count threshold. Furthermore, the sample was less than 10% of the U.S. adult population.  
 4. **Degrees of Freedom:** The chi-square test for trends has only one degree of freedom because the linear scoring means that when one expected value is given all the others are fixed.  
 
 That said, the conditions for parametric inference were met.
 
 ### Statistical Method
-A chi-square trend test was contemplated for this hypothesis test. 
+A chi-square trend test also called the Cochran-Armitage test for trend was appropriate for testing association between a nominal variable with two levels (opinion) and an ordinal variable (say year).
 
 ### Test Results
 Chi-square tests for trend in proportions was conducted in order to challenge the null hypothesis that no linear trend exists in opinion over time. 
@@ -452,12 +465,13 @@ knitr::kable(years, digits = 2, align = c("l", rep("c", 8))) %>%
 **1973-2011**  
 As indicated in `r kfigr::figr(label = "yearX2", prefix = TRUE, link = TRUE, type="Table")`, the result was significant in favor of the alternative hypothesis for both groups, $X^2$(1, N = `r pre2012$tests$x2t$N[1]`) = `r round(pre2012$tests$x2t$X.Squared[1], 0)`, $p \lt .05$  and $X^2$(1, N = `r pre2012$tests$x2t$N[2]`) = `r round(pre2012$tests$x2t$X.Squared[2], 0)`, $p \lt .05$ for the male and female groups respectively. As such the null hypothesis was rejected in favor of the alternative hypothesis that states with 95% confidence, that a *negative* linear relationship was extant.
 
-The percent change in the proportion of non-traditional opinion overall was `r years$Pct.Change[1]`%, and `r years$Pct.Change[2]`%, and `r years$Pct.Change[3]`% for male and female respondents, respectively.
+The percent change in the proportion of non-traditional opinion overall was `r analysis$PctChange[1]`%, and `r analysis$PctChange[2]`%, and `r analysis$PctChange[3]`% for male and female respondents, respectively.
 
 **2012-2016**  
 Similarly, the data suggests a positive linear trend in non-traditional opinion from 2012-2016 for both male and female populations. As indicated in `r kfigr::figr(label = "yearX2", prefix = TRUE, link = TRUE, type="Table")`, the result was significant in favor of the alternative hypothesis for both populations, $X^2$(1, N = `r pre2012$tests$x2t$N[3]`) = `r round(pre2012$tests$x2t$X.Squared[3], 0)`, $p \lt .05$  and $X^2$(1, N = `r pre2012$tests$x2t$N[4]`) = `r round(pre2012$tests$x2t$X.Squared[4], 0)`, $p \lt .05$ for the male and female groups respectively. As such the null hypothesis was rejected in favor of the alternative hypothesis that states with 95% confidence, that a *positive* linear relationship was extant.
 
-The percent change in the proportion of non-traditional opinion overall was `r years$Pct.Change[4]`%, and `r years$Pct.Change[5]`%, and `r years$Pct.Change[6]`% for male and female respondents, respectively.
+The percent change in the proportion of non-traditional opinion overall was `r analysis$PctChange[4]`%, and `r analysis$PctChange[5]`%, and `r analysis$PctChange[6]`% for male and female respondents, respectively.  
+
 ## Research Question 2: Opinion by Region
 ```{r region, cache=TRUE}
 region <- bivariate(xms$bivariate$region, y = "Opinion", x = "Region", title = "Opinion by Region",
@@ -588,10 +602,10 @@ As such, opinion was not independent of geographic region.
 ```{r regionAnalysis, echo = F, message = FALSE, warning=FALSE}
 analysis <- region$analysis %>% select(Region, Opinion, PctProp, CumPct, RelativePct) %>% filter(Opinion == "Non-Traditional") 
 knitr::kable(analysis, digits = 0, align = c("l", rep("c", 4))) %>%  
-  kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = F, position = "center")
+  kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = T, position = "center")
 ```
 
-As indicated in `r kfigr::figr(label = "regionAnalysis", prefix = TRUE, link = TRUE, type="Table")`, nearly `r round(region$analysis$CumPct[7], -1)`% of the non-traditional opinion in the United States from 2012 to 2016 emerged from the Northeast and Pacific regions. Add in the Mountain region, and this percentage increases to `r round(region$analysis$CumPct[8], -1)`%. On average, respondents in the Northeast and Pacific regions were `r analysis$RelativePct[1]`% and `r analysis$RelativePct[2]`% more likely to have non-traditional opinions.
+As indicated in `r kfigr::figr(label = "regionAnalysis", prefix = TRUE, link = TRUE, type="Table")`, nearly `r round(region$analysis$CumPct[7], -1)`% of the non-traditional opinion in the United States from 2012 to 2016 emerged from the Northeast and Pacific regions. Add in the Mountain region, and this percentage increases to `r round(region$analysis$CumPct[8], -1)`%. On average, respondents in the Northeast and Pacific regions were `r 100 - round(analysis$RelativePct[1],0)`% and `r 100 - round(analysis$RelativePct[2],0)`% more likely to have non-traditional opinions.
 
 
 ## Research Question 3: Opinion by Class
@@ -719,7 +733,7 @@ knitr::kable(class$tests$dp$result, digits = 3, align = c("l", rep("c", 7))) %>%
   kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = T, position = "center")
 ```
 
-In summary, opinion w.r.t. extra-marital conduct was independent of class.
+Therefore, opinion w.r.t. extra-marital conduct was independent of class.
 
 ## Research Question 4: Opinion by Gender
 ```{r gender, cache=TRUE}
@@ -950,7 +964,7 @@ the 25-44 age group was decidely more likely than other age groups to hold non-t
 
 That said, the results of the chi-square test were considered more reliable and therefore, the conclusion was that opinion was not independent of age.  
 
-## Research Question 5: Opinion by Marital Status
+## Research Question 6: Opinion by Marital Status
 ```{r marital, cache=TRUE}
 marital <- bivariate(xms$bivariate$marital, y = "Opinion", x = "Marital Status", title = "Opinion by Marital Status",
 success = "Non-Traditional", conf = 0.95, alpha = 0.05, alternative = "two.sided")
@@ -1081,7 +1095,7 @@ Differences in proportion of opinion, as indicated in `r kfigr::figr(label = "ma
 ```{r maritalAnalysis, echo = F, message = FALSE, warning=FALSE}
 analysis <- marital$analysis %>% select(.[[1]], Opinion, PctProp, CumPct, RelativePct) %>% filter(Opinion == "Non-Traditional") 
 knitr::kable(analysis, digits = 0, align = c("l", rep("c", 4))) %>%  
-  kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = F, position = "center")
+  kableExtra::kable_styling(bootstrap_options = c("hover", "condensed", "responsive"), full_width = T, position = "center")
 ```
 As indicated in `r kfigr::figr(label = "maritalAnalysis", prefix = TRUE, link = TRUE, type="Table")`, separated (`r round(marital$analysis$PctProp[6], 0)`%) and never married (`r round(marital$analysis$PctProp[7], 0)`%) respondents accounted for over `r round(marital$analysis$CumPct[7], -1)`% of the non-traditional opinion with respect to extra-marital conduct in this country from 2012-2016. On average, separated and never married repondents were `r round(analysis$RelativePct[1], 0)`%, and `r round(analysis$RelativePct[2], 0)`% more likely to have non-traditional opinion. Divorced respondents constituted `r round(marital$analysis$PctProp[8], 0)`% of non-traditional opinion. Married and widowed respondents represented `r round(marital$analysis$PctProp[9], 0)`% and `r round(marital$analysis$PctProp[10], 0)`% such opinion, respectively. 
 
@@ -1099,13 +1113,13 @@ knitr::kable(results) %>%
 ```
 
 The significant findings of this analysis are:  
-1. From 1973-2011, the proportion of people holding non-traditional views with respect to extra-marital conduct decreased by `r -round(pre2012$analysis$PctChange[1], 0)`% from a high of `r round(pre2012$analysis$Max[1], 2)` in `r round(pre2012$analysis$YearHigh[1], 0)` to a low of `r round(pre2012$analysis$Min[1], 2)` in `r round(pre2012$analysis$YearLow[1], 0)`.  
-2. From 2012-2016 the trend reverses. The proportion of non-traditional opinion increased by `r round(post2012$analysis$PctChange[4], 0)`%. The most significant increase was among women where the proportion of opinion grew  `r round(post2012$analysis$PctChange[6], 0)`%  from `r round(post2012$analysis$Min[6], 0)` in `r round(post2012$analysis$YearLow[6], 0)` to `r round(post2012$analysis$Max[6], 0)` in `r round(post2012$analysis$YearHigh[6], 0)`.  
-3. Geograhic region is a significant indicator of opinion w.r.t extra-marital conduct. Nearly `r round(region$analysis$CumPct[7], -1)`% of the non-traditional opinion in the United States from 2012 to 2016 emerged from the Northeast (`r round(region$analysis$PctProp[6], 0)`%) and Pacific regions (`r round(region$analysis$PctProp[7], 0)`%) . Add in the Mountain region (`r round(region$analysis$PctProp[8], 0)`%) , and this percentage increases to `r round(region$analysis$CumPct[8], -1)`%. On average, respondents in the Northeast and Pacific regions were `r analysis$RelativePct[1]`% and `r analysis$RelativePct[2]`% more likely to have non-traditional opinions. The lowest proportion of non-traditional opinion was found in the MidWest and South, each accounting for approximately `r round(mean(region$analysis$PctProp[9], region$analysis$PctProp[10]), 0)`% of the non-traditional opinion in the U.S.  
-4. Opinion was not associated with socio-economic class.   
-5. Men in the United States from 2012-2016 were `r 100 * (as.numeric(gender$tests$dp$result[8]) - 1)`% more likely to believe that extra-marital conduct was sometimes wrong or not wrong at all.    
-6. Though age was a significant indicator of opinion, there was little practical significance of opinion between the age groups.  The `r age$analysis$Age[5]` age group accounted for `r round(age$analysis$PctProp[5], 0)`% of the non-traditional opinion in the country, followed by the `r age$analysis$Age[6]` age group at `r round(age$analysis$PctProp[6], 0)`%.  There was no difference at ages 45 and above. 
-7. Separated (`r round(marital$analysis$PctProp[6], 0)`%) and never married (`r round(marital$analysis$PctProp[7], 0)`%) respondents accounted for over `r round(marital$analysis$CumPct[7], -1)`% of the non-traditional opinion with respect to extra-marital conduct in this country from 2012-2016. On average, separated and never married repondents were `r round(analysis$RelativePct[1], 0)`%, and `r round(analysis$RelativePct[2], 0)`% more likely to have non-traditional opinion. Divorced respondents constituted `r round(marital$analysis$PctProp[8], 0)`% of non-traditional opinion. Married and widowed respondents represented `r round(marital$analysis$PctProp[9], 0)`% and `r round(marital$analysis$PctProp[10], 0)`% such opinion, respectively. 
+1.  From 1973-2011, the proportion of people holding non-traditional views with respect to extra-marital conduct decreased by `r -round(pre2012$analysis$PctChange[1], 0)`% from a high of `r round(pre2012$analysis$pMax[1], 2)` in `r as.character(pre2012$analysis$YearHigh[1])` to a low of `r round(pre2012$analysis$pMin[1], 2)` in `r as.character(pre2012$analysis$YearLow[1])`.  
+2.  From 2012-2016 the trend reverses. The proportion of non-traditional opinion increased by `r round(post2012$analysis$PctChange[1], 0)`%. The most significant increase was among women where the proportion of opinion grew  `r round(post2012$analysis$PctChange[3], 0)`%  from `r round(post2012$analysis$pMin[3], 0)` in `r as.character(post2012$analysis$YearLow[3])` to `r round(post2012$analysis$pMax[3], 0)` in `r as.character(post2012$analysis$YearHigh[3])`.  
+3.  Geograhic region is a significant indicator of opinion w.r.t extra-marital conduct. Nearly `r round(region$analysis$CumPct[7], -1)`% of the non-traditional opinion in the United States from 2012 to 2016 emerged from the Northeast (`r round(region$analysis$PctProp[6], 0)`%) and Pacific regions (`r round(region$analysis$PctProp[7], 0)`%) . Add in the Mountain region (`r round(region$analysis$PctProp[8], 0)`%) , and this percentage increases to `r round(region$analysis$CumPct[8], -1)`%. On average, respondents in the Northeast and Pacific regions were `r round(analysis$RelativePct[1],0)`% and `r round(analysis$RelativePct[2],0)`% more likely to have non-traditional opinions. The lowest proportion of non-traditional opinion was found in the MidWest and South, each accounting for approximately `r round(mean(region$analysis$PctProp[9], region$analysis$PctProp[10]), 0)`% of the non-traditional opinion in the U.S.  
+4.  Opinion was not associated with socio-economic class.   
+5.  Men in the United States from 2012-2016 were `r 100 * (as.numeric(gender$tests$dp$result[8]) - 1)`% more likely to believe that extra-marital conduct was sometimes wrong or not wrong at all.    
+6.  Though age was a significant indicator of opinion, there was little practical significance of opinion between the age groups.  The `r age$analysis$Age[5]` age group accounted for `r round(age$analysis$PctProp[5], 0)`% of the non-traditional opinion in the country, followed by the `r age$analysis$Age[6]` age group at `r round(age$analysis$PctProp[6], 0)`%.  There was no difference at ages 45 and above. 
+7.  Separated (`r round(marital$analysis$PctProp[6], 0)`%) and never married (`r round(marital$analysis$PctProp[7], 0)`%) respondents accounted for over `r round(marital$analysis$CumPct[7], -1)`% of the non-traditional opinion with respect to extra-marital conduct in this country from 2012-2016. On average, separated and never married repondents were `r round(analysis$RelativePct[1], 0)`%, and `r round(analysis$RelativePct[2], 0)`% more likely to have non-traditional opinion. Divorced respondents constituted `r round(marital$analysis$PctProp[8], 0)`% of non-traditional opinion. Married and widowed respondents represented `r round(marital$analysis$PctProp[9], 0)`% and `r round(marital$analysis$PctProp[10], 0)`% such opinion, respectively. 
 
 ## Insights and Implications
 **Trends in Opinion**  
@@ -1132,9 +1146,31 @@ Amid the growing amount of research citing a dramatic shift in the marriage inst
 Opinions with respect to extra-marital conduct ranged from always or almost always wrong (traditional opinion) to sometimes wrong and not wrong at all (non-traditional opinion). Geographic region, age, gender, marital status are significant indicators of opinion, but not in any surprising ways.  Naturally, people in the Northeast and Pacific regions have the highest proportions of people with non-traditional opinions and women are less likely than men to have such views. The younger generations tend to have the more liberal perspectives and the highest proportions of non-traditional opinion were among the separated and divorced. No surprises here.
 
 **Evolution of Opinion**  
-That said, a shift in beliefs and opinions w.r.t. extra-marital conduct is definately extant in the data. From the early 70's until about 2002, the trend was towards increasingly conservative thought and opinion, perhaps a natural retraction or readjustment following the sexual revolution of the 60's and 70's. However, 2002 and 2012 mark inflection points of shifting opinions and attitudes regarding extra-marital conduct. From 2012-2016 the proportion of non-traditional opinion increased by `r round(post2012$analysis$PctChange[4], 0)`%. The most significant increase was among women where the proportion of non-traditional opinion grew  `r round(post2012$analysis$PctChange[6], 0)`%  from `r round(post2012$analysis$Min[6], 0)` in `r round(post2012$analysis$YearLow[6], 0)` to `r round(post2012$analysis$Max[6], 0)` in `r round(post2012$analysis$YearHigh[6], 0)`. This conflates with the coming of age of a new generation characterized by diminished deference for marriage as an institution, increasing acceptance of same-sex marriage, and the (re) emergence of open marriages, consentual non-manogamy relationships and the like. 
+That said, a shift in beliefs and opinions w.r.t. extra-marital conduct is definately extant in the data. From the early 70's until about 2002, the trend was towards increasingly conservative thought and opinion, perhaps a natural retraction or readjustment following the sexual revolution of the 60's and 70's. However, 2002 and 2012 mark inflection points of shifting opinions and attitudes regarding extra-marital conduct. From 2012-2016 the proportion of non-traditional opinion increased by `r round(post2012$analysis$PctChange[1], 0)`%. The most significant increase was among women where the proportion of non-traditional opinion grew  `r round(post2012$analysis$PctChange[3], 0)`%  from `r round(post2012$analysis$pMin[3], 0)` in `r round(post2012$analysis$YearLow[3], 0)` to `r round(post2012$analysis$pMax[3], 0)` in `r round(post2012$analysis$YearHigh[3], 0)`. This conflates with the coming of age of a new generation characterized by diminished deference for marriage as an institution, increasing acceptance of same-sex marriage, and the (re) emergence of open marriages, consentual non-manogamy relationships and the like. 
 
 A dramatic shift in marriage as an institution is afoot. Expectations of marriage "until death do us part" are changing and  increasing numbers of men and woman admit to having had extra-marital affairs. Social networks have dramatically shifted the scope, range, frequency, and opportunity for interaction. All these factors conflate to produce the phenomena responsible for much of the societal changes we observe.  Future studies might explore the factors, such as social networks, that (re)shape our deference for an belief in many of our institutions. 
+
+# Appendix
+## Source Code
+Given the size of the code base for this report, only the select functions responsible for statistical computation were included in the report.  
+
+### Difference in Proportions
+The following function performs the repeated difference in proportions tests for multiple proportions.
+```{r a-eda, code=readLines('../R/diffTest.R')[21:182], echo=TRUE, eval=FALSE}
+```
+
+### Chi-square Test for Independence
+The following function performs the chi-square test of independence and reports the analysis.
+```{r a-eda, code=readLines('../R/x2Test.R')[20:80], echo=TRUE, eval=FALSE}
+```
+
+### Chi-square Trend Test
+The following function performs the chi-square trend test.
+```{r a-eda, code=readLines('../R/x2TrendTest.R')[19:83], echo=TRUE, eval=FALSE}
+```
+
+
+# References
 
 
 

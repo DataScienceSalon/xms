@@ -3,7 +3,8 @@
 #==============================================================================#
 #' preprocess
 #'
-#' \code{preprocess} Creates additional variables required for analysis.
+#' \code{preprocess} Preprocesses the data set and creates data sets used
+#' for analysis.
 #'
 #' @author John James, \email{jjames@@datasciencesalon.org}
 #' @family xmar functions

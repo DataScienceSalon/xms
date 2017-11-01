@@ -35,10 +35,14 @@ analyzeTrend <- function(tbl, x, y, z, dim) {
   analysis <- df %>%
     summarize(Start = min(Year),
               End = max(Year),
-              Min = round(min(Freq), 2),
-              Mean = round(mean(Freq), 2),
-              Median = round(median(Freq), 2),
-              Max = round(max(Freq), 2),
+              xMin = min(tbl[2,]),
+              xMean = mean(tbl[2,]),
+              xMedian = median(tbl[2,]),
+              xMax = max(tbl[2,]),
+              pMin = round(min(Freq), 2),
+              pMean = round(mean(Freq), 2),
+              pMedian = round(median(Freq), 2),
+              pMax = round(max(Freq), 2),
               First = Freq[1],
               Last = Freq[length(Freq)]) %>%
     mutate(Range = paste0(Start, "-", End),
@@ -46,8 +50,9 @@ analyzeTrend <- function(tbl, x, y, z, dim) {
            PctChange = (Last - First) / First * 100,
            YearLow = minYear,
            YearHigh = maxYear)
-  analysis <- analysis %>% select(Range, Gender, YearLow, Min,
-                                  Mean, Median, YearHigh, Max, PctChange)
+  analysis <- analysis %>% select(Range, Gender, YearLow, YearHigh,
+                                  xMin, xMean, xMedian, xMax, pMin,
+                                  pMean, pMedian, pMax, PctChange)
 
   return(analysis)
 }

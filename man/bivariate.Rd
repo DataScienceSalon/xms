@@ -4,8 +4,8 @@
 \alias{bivariate}
 \title{bivariate}
 \usage{
-bivariate(data, y, x, title, success = "Non-Traditional", conf = 0.95,
-  alpha = 0.05, alternative = "two.sided")
+bivariate(data, y, x, title, response = "c", success = "Non-Traditional",
+  conf = 0.95, alpha = 0.05, alternative = "two.sided")
 }
 \arguments{
 \item{data}{Data frame containing response and explanatory variable}
@@ -15,6 +15,8 @@ bivariate(data, y, x, title, success = "Non-Traditional", conf = 0.95,
 \item{x}{Character string description of the explanatory variable}
 
 \item{title}{Character string containing the plot title}
+
+\item{response}{Character string indicating whether the response is categorical or numeric c("c", "n")}
 
 \item{success}{Character string for the factor variable considered the success factor}
 
